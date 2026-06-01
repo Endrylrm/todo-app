@@ -122,7 +122,7 @@ async def update_todo(id: int, todo: dict):
         return {"failed": "unable to update todo!", "error": e}
 
 
-@app.put("/api/todos/{id}")
+@app.put("/api/todos/{id}", status_code=status.HTTP_200_OK)
 async def update_todo_completely(id: int, todo: dict):
     if id < 1:
         return {"failed": "Invalid id range!"}
@@ -155,6 +155,18 @@ async def update_todo_completely(id: int, todo: dict):
         return {"failed": "unable to update todo completely!", "error": e}
 
 
-@app.delete("/api/todos/{id}")
+@app.delete("/api/todos/{id}", status_code=status.HTTP_200_OK)
 async def delete_todo(id: int):
-    return {}
+    if id < 1:
+        return {"failed": "Invalid id range!"}
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM todos WHERE id = ?", (id,))
+        conn.commit()
+        return {"success": "todo deleted!"}
+
+    except sqlite3.Error as e:
+        print(f"Error: {e}")
+        conn.rollback()
+        return {"failed": "unable to delete todo!", "error": e}
