@@ -1,6 +1,10 @@
 import sqlite3
 
+from typing import Any
+
 from fastapi import FastAPI, status
+
+from .models.todo import Todo
 
 app = FastAPI()
 
@@ -29,49 +33,45 @@ async def root():
 
 
 @app.get("/api/todos", status_code=status.HTTP_200_OK)
-async def get_todos():
+async def get_todos() -> dict[str, Todo]:
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM todos")
     todos_rows = cursor.fetchall()
     todos = {}
 
     for todo in todos_rows:
-        todos[str(todo[0])] = {
-            "title": todo[1],
-            "description": todo[2],
-            "is_active": bool(todo[3]),
-        }
+        todos[str(todo[0])] = Todo(
+            title=todo[1], description=todo[2], is_active=todo[3]
+        )
     return todos
 
 
 @app.get("/api/todos/{id}", status_code=status.HTTP_200_OK)
-async def get_todo(id: int):
+async def get_todo(id: int) -> dict[str, Todo]:
     if id < 1:
         return {"failed": "Invalid id range!"}
 
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM todos WHERE id = ?", (id,))
     todo_row = cursor.fetchone()
-    todo = {
-        str(todo_row[0]): {
-            "title": todo_row[1],
-            "description": todo_row[2],
-            "is_active": bool(todo_row[3]),
-        }
+    todo: dict[str, Todo] = {
+        str(todo_row[0]): Todo(
+            title=todo_row[1], description=todo_row[2], is_active=todo_row[3]
+        )
     }
     return todo
 
 
 @app.post("/api/todos", status_code=status.HTTP_201_CREATED)
-async def insert_todo(todo: dict):
+async def insert_todo(todo: Todo) -> dict[str, Any]:
     try:
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO todos (title, description, is_active) VALUES (?, ?, ?)",
             (
-                todo["title"],
-                todo["description"],
-                int(todo["is_active"]),
+                todo.title,
+                todo.description,
+                int(todo.is_active),
             ),
         )
         conn.commit()
@@ -84,7 +84,7 @@ async def insert_todo(todo: dict):
 
 
 @app.patch("/api/todos/{id}", status_code=status.HTTP_200_OK)
-async def update_todo(id: int, todo: dict):
+async def update_todo(id: int, todo: Todo) -> dict[str, Any]:
     if id < 1:
         return {"failed": "Invalid id range!"}
 
@@ -93,17 +93,17 @@ async def update_todo(id: int, todo: dict):
         sql = "UPDATE todos SET "
         temp_parameter_list = []
 
-        if "title" in todo:
+        if todo.title is not None:
             sql = sql + "title = ?,"
-            temp_parameter_list.append(todo["title"])
+            temp_parameter_list.append(todo.title)
 
-        if "description" in todo:
+        if todo.description is not None:
             sql = sql + "description = ?,"
-            temp_parameter_list.append(todo["description"])
+            temp_parameter_list.append(todo.description)
 
-        if "is_active" in todo:
+        if todo.is_active is not None:
             sql = sql + "is_active = ?,"
-            temp_parameter_list.append(todo["is_active"])
+            temp_parameter_list.append(int(todo.is_active))
 
         sql = sql.rstrip(",") + " WHERE id = ?"
 
@@ -123,17 +123,17 @@ async def update_todo(id: int, todo: dict):
 
 
 @app.put("/api/todos/{id}", status_code=status.HTTP_200_OK)
-async def update_todo_completely(id: int, todo: dict):
+async def update_todo_completely(id: int, todo: Todo) -> dict[str, Any]:
     if id < 1:
         return {"failed": "Invalid id range!"}
 
-    if not "title" in todo:
+    if todo.title is None:
         return {"failed": "No 'title' to update todo completely!"}
 
-    if not "description" in todo:
+    if todo.description is None:
         return {"failed": "No 'description' to update todo completely!"}
 
-    if not "is_active" in todo:
+    if todo.is_active is None:
         return {"failed": "No 'is_active' to update todo completely"}
 
     try:
@@ -141,9 +141,9 @@ async def update_todo_completely(id: int, todo: dict):
         cursor.execute(
             "INSERT INTO todos (title, description, is_active) VALUES (?, ?, ?)",
             (
-                todo["title"],
-                todo["description"],
-                int(todo["is_active"]),
+                todo.title,
+                todo.description,
+                int(todo.is_active),
             ),
         )
         conn.commit()
@@ -156,7 +156,7 @@ async def update_todo_completely(id: int, todo: dict):
 
 
 @app.delete("/api/todos/{id}", status_code=status.HTTP_200_OK)
-async def delete_todo(id: int):
+async def delete_todo(id: int) -> dict[str, Any]:
     if id < 1:
         return {"failed": "Invalid id range!"}
 
