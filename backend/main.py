@@ -83,9 +83,43 @@ async def insert_todo(todo: dict):
         return {"failed": "unable to create todo!", "error": e}
 
 
-@app.patch("/api/todos/{id}")
+@app.patch("/api/todos/{id}", status_code=status.HTTP_200_OK)
 async def update_todo(id: int, todo: dict):
-    return {}
+    if id < 1:
+        return {"failed": "Invalid id range!"}
+
+    try:
+        cursor = conn.cursor()
+        sql = "UPDATE todos SET "
+        temp_parameter_list = []
+
+        if "title" in todo:
+            sql = sql + "title = ?,"
+            temp_parameter_list.append(todo["title"])
+
+        if "description" in todo:
+            sql = sql + "description = ?,"
+            temp_parameter_list.append(todo["description"])
+
+        if "is_active" in todo:
+            sql = sql + "is_active = ?,"
+            temp_parameter_list.append(todo["is_active"])
+
+        sql = sql.rstrip(",") + " WHERE id = ?"
+
+        temp_parameter_list.append(id)
+
+        cursor.execute(
+            sql,
+            tuple(temp_parameter_list),
+        )
+        conn.commit()
+        return {"success": "todo updated!"}
+
+    except sqlite3.Error as e:
+        print(f"Error: {e}")
+        conn.rollback()
+        return {"failed": "unable to update todo!", "error": e}
 
 
 @app.put("/api/todos/{id}")
