@@ -139,12 +139,8 @@ async def update_todo_completely(id: int, todo: Todo) -> dict[str, Any]:
     try:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO todos (title, description, is_active) VALUES (?, ?, ?)",
-            (
-                todo.title,
-                todo.description,
-                int(todo.is_active),
-            ),
+            "UPDATE todos SET title = ?, description = ?, is_active = ? WHERE id = ?",
+            (todo.title, todo.description, int(todo.is_active), id),
         )
         conn.commit()
         return {"success": "todo updated completely!"}
