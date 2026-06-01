@@ -124,7 +124,35 @@ async def update_todo(id: int, todo: dict):
 
 @app.put("/api/todos/{id}")
 async def update_todo_completely(id: int, todo: dict):
-    return {}
+    if id < 1:
+        return {"failed": "Invalid id range!"}
+
+    if not "title" in todo:
+        return {"failed": "No 'title' to update todo completely!"}
+
+    if not "description" in todo:
+        return {"failed": "No 'description' to update todo completely!"}
+
+    if not "is_active" in todo:
+        return {"failed": "No 'is_active' to update todo completely"}
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO todos (title, description, is_active) VALUES (?, ?, ?)",
+            (
+                todo["title"],
+                todo["description"],
+                int(todo["is_active"]),
+            ),
+        )
+        conn.commit()
+        return {"success": "todo updated completely!"}
+
+    except sqlite3.Error as e:
+        print(f"Error: {e}")
+        conn.rollback()
+        return {"failed": "unable to update todo completely!", "error": e}
 
 
 @app.delete("/api/todos/{id}")
