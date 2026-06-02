@@ -15,7 +15,7 @@ class TodoPage:
         todos = self._service.get_todos()
         with ui.row():
             with ui.link(target="/add"):
-                ui.button("Add Todo", icon="add")
+                ui.button("Add Todo", icon="add", color="green")
         with ui.grid(columns=4).classes("w-full gap-4"):
             for todo in todos:
                 TodoCard(int(todo), todos[todo], self._service)

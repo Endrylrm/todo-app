@@ -23,6 +23,7 @@ class AddTodoPage:
                     on_click=lambda: self.create_todo(
                         title.value, description.value, is_active.value
                     ),
+                    color="green",
                 )
                 with ui.link(target="/"):
                     ui.button("Return Home", icon="home")
