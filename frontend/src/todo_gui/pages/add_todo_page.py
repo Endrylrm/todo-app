@@ -28,6 +28,5 @@ class AddTodoPage:
                     ui.button("Return Home", icon="home")
 
     def create_todo(self, title: str, description: str, is_active: bool):
-        new_key = str(int(list(self._service.todos.keys())[-1]) + 1)
-        self._service.todos.update({new_key: Todo(title, description, is_active)})
-        ui.notify(f"Todo Created {new_key}")
+        self._service.insert_todo(Todo(title, description, is_active))
+        ui.notify(f"Todo Created!")

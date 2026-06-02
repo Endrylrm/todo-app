@@ -31,5 +31,5 @@ class TodoCard(ui.card):
                     )
 
     def delete_todo(self, id: int):
-        self._service.todos.pop(str(id), None)
+        self._service.delete_todo(id)
         self.delete()

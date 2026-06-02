@@ -12,13 +12,15 @@ class EditTodoPage:
         self.render(id)
 
     def render(self, id: int):
+        todo = self._service.get_todo(id)
+
         with ui.grid(columns=1).classes("w-full gap-1"):
             title = ui.input("Title:")
-            title.set_value(self._service.todos[str(id)].title)
+            title.set_value(todo.title)
             description = ui.input("Description:")
-            description.set_value(self._service.todos[str(id)].description)
+            description.set_value(todo.description)
             is_active = ui.switch("Is Active")
-            is_active.set_value(self._service.todos[str(id)].is_active)
+            is_active.set_value(todo.is_active)
             with ui.row():
                 with ui.link(target="/"):
                     ui.button(
@@ -32,8 +34,6 @@ class EditTodoPage:
                     ui.button("Return Home", icon="home")
 
     def edit_todo(self, id: int, title: str, description: str, is_active: bool):
-        self._service.todos[str(id)].title = title
-        self._service.todos[str(id)].description = description
-        self._service.todos[str(id)].is_active = is_active
+        self._service.update_todo(id, Todo(title, description, is_active))
 
-        ui.notify(f"Todo Updated {id}")
+        ui.notify(f"Todo Updated!")
