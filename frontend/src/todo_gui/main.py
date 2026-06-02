@@ -71,7 +71,7 @@ def edit_todo(id: int, title: str, description: str, is_active: bool):
 
 
 def edit_todo_page(id: int):
-    with ui.grid(columns=1):
+    with ui.grid(columns=1).classes("w-full gap-1"):
         title = ui.input("Title:")
         title.set_value(todos[str(id)]["title"])
         description = ui.input("Description:")
@@ -79,13 +79,14 @@ def edit_todo_page(id: int):
         is_active = ui.switch("Is Active")
         is_active.set_value(todos[str(id)]["is_active"])
         with ui.row():
-            ui.button(
-                "Save Todo",
-                icon="save",
-                on_click=lambda: edit_todo(
-                    id, title.value, description.value, is_active.value
-                ),
-            )
+            with ui.link(target="/"):
+                ui.button(
+                    "Save Todo",
+                    icon="save",
+                    on_click=lambda: edit_todo(
+                        id, title.value, description.value, is_active.value
+                    ),
+                )
             with ui.link(target="/"):
                 ui.button("Return Home", icon="home")
 
