@@ -1,18 +1,17 @@
 from nicegui import ui
 
-todos = {
-    "0": {"title": "Test Todo 0", "description": "Lorem Ipsum", "is_active": True},
-    "1": {"title": "Test Todo 1", "description": "Lorem Ipsum", "is_active": True},
-    "2": {"title": "Test Todo 2", "description": "Lorem Ipsum", "is_active": True},
-    "3": {"title": "Test Todo 3", "description": "Lorem Ipsum", "is_active": False},
-    "4": {"title": "Test Todo 4", "description": "Lorem Ipsum", "is_active": True},
-    "5": {"title": "Test Todo 5", "description": "Lorem Ipsum", "is_active": True},
-    "6": {"title": "Test Todo 6", "description": "Lorem Ipsum", "is_active": False},
-    "7": {"title": "Test Todo 7", "description": "Lorem Ipsum", "is_active": True},
-    "8": {"title": "Test Todo 8", "description": "Lorem Ipsum", "is_active": True},
-    "9": {"title": "Test Todo 9", "description": "Lorem Ipsum", "is_active": True},
-    "10": {"title": "Test Todo 10", "description": "Lorem Ipsum", "is_active": False},
-}
+todos = {}
+
+for index in range(1, 11):
+    todos.update(
+        {
+            f"{index}": {
+                "title": f"Test Todo {index}",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut finibus dui. Maecenas vitae dolor ac lacus volutpat iaculis. Sed eleifend tristique felis a egestas. Donec sed faucibus sem.",
+                "is_active": True,
+            }
+        }
+    )
 
 
 def root():
@@ -22,7 +21,12 @@ def root():
     with ui.header():
         ui.icon("note_alt").classes("text-3xl")
         ui.label("Todo Application").classes("text-3xl")
-    ui.sub_pages({"/": todo_page}).classes("w-full")
+    ui.sub_pages(
+        {
+            "/": todo_page,
+            "/add": add_todo_page,
+        }
+    ).classes("w-full")
 
 
 def create_todo_card(index: int, todo_dict: dict):
@@ -42,10 +46,41 @@ def create_todo_card(index: int, todo_dict: dict):
                 )
 
 
+def new_todo(title: str, description: str, is_active: bool):
+    new_key = str(int(list(todos.keys())[-1]) + 1)
+    todos.update(
+        {
+            new_key: {
+                "title": title,
+                "description": description,
+                "is_active": is_active,
+            }
+        }
+    )
+    ui.notify(f"Todo Created {new_key}")
+
+
+def add_todo_page():
+    with ui.grid(columns=1).classes("w-full gap-1"):
+        title = ui.input("Title:")
+        description = ui.input("Description:")
+        is_active = ui.switch("Is Active")
+        with ui.row():
+            ui.button(
+                "Add new Todo",
+                icon="add",
+                on_click=lambda: new_todo(
+                    title.value, description.value, is_active.value
+                ),
+            )
+            with ui.link(target="/"):
+                ui.button("Return Home", icon="home")
+
+
 def todo_page():
     with ui.row():
-        ui.button("Add Todo", icon="add")
-        ui.space()
+        with ui.link(target="/add"):
+            ui.button("Add Todo", icon="add")
     with ui.grid(columns=4).classes("w-full gap-4"):
         for todo in todos:
             create_todo_card(todo, todos[todo])
