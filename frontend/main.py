@@ -1,6 +1,9 @@
-def main():
-    print("Hello from frontend!")
+from nicegui import ui
 
 
-if __name__ == "__main__":
-    main()
+def root():
+    dark = ui.dark_mode()
+    dark.auto()
+
+
+ui.run(root)
