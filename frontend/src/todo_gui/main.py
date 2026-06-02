@@ -25,6 +25,7 @@ def root():
         {
             "/": todo_page,
             "/add": add_todo_page,
+            "/edit/{id}": edit_todo_page,
         }
     ).classes("w-full")
 
@@ -41,6 +42,8 @@ def create_todo_card(index: int, todo_dict: dict):
             ui.label(f"Description: {todo_dict["description"]}")
             ui.switch("Is Active", value=todo_dict["is_active"]).set_enabled(False)
             with ui.row():
+                with ui.link(target=f"/edit/{index}"):
+                    ui.button(icon="edit")
                 ui.button(
                     on_click=lambda: delete_todo(index), icon="delete", color="red-800"
                 )
@@ -58,6 +61,33 @@ def new_todo(title: str, description: str, is_active: bool):
         }
     )
     ui.notify(f"Todo Created {new_key}")
+
+
+def edit_todo(id: int, title: str, description: str, is_active: bool):
+    todos[str(id)].update(
+        {"title": title, "description": description, "is_active": is_active}
+    )
+    ui.notify(f"Todo Updated {id}")
+
+
+def edit_todo_page(id: int):
+    with ui.grid(columns=1):
+        title = ui.input("Title:")
+        title.set_value(todos[str(id)]["title"])
+        description = ui.input("Description:")
+        description.set_value(todos[str(id)]["description"])
+        is_active = ui.switch("Is Active")
+        is_active.set_value(todos[str(id)]["is_active"])
+        with ui.row():
+            ui.button(
+                "Save Todo",
+                icon="save",
+                on_click=lambda: edit_todo(
+                    id, title.value, description.value, is_active.value
+                ),
+            )
+            with ui.link(target="/"):
+                ui.button("Return Home", icon="home")
 
 
 def add_todo_page():
