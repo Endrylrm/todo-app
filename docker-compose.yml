@@ -1,0 +1,31 @@
+name: "todo-app"
+services:
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    image: todo-backend:latest
+    container_name: backend
+    hostname: backend
+    restart: "unless-stopped"
+    ports:
+      - 8000:8000
+    networks:
+      - todo-network
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    image: todo-frontend:latest
+    container_name: frontend
+    hostname: frontend
+    depends_on:
+      - backend
+    restart: "unless-stopped"
+    ports:
+      - 3000:3000
+    networks:
+      - todo-network
+networks:
+  todo-network:
+    driver: bridge

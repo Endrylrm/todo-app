@@ -117,4 +117,4 @@ def todo_page():
             create_todo_card(todo, todos[todo])
 
 
-ui.run(root)
+ui.run(root, port=3000)
