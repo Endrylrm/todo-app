@@ -18,6 +18,10 @@ todos = {
 def root():
     dark = ui.dark_mode()
     dark.auto()
+    ui.page_title("Todo Application")
+    with ui.header():
+        ui.icon("note_alt").classes("text-3xl")
+        ui.label("Todo Application").classes("text-3xl")
     ui.sub_pages({"/": todo_page}).classes("w-full")
 
 
@@ -33,7 +37,9 @@ def create_todo_card(index: int, todo_dict: dict):
             ui.label(f"Description: {todo_dict["description"]}")
             ui.switch("Is Active", value=todo_dict["is_active"]).set_enabled(False)
             with ui.row():
-                ui.button("Delete", on_click=lambda: delete_todo(index))
+                ui.button(
+                    on_click=lambda: delete_todo(index), icon="delete", color="red-800"
+                )
 
 
 def todo_page():
