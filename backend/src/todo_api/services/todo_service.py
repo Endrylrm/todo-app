@@ -23,7 +23,7 @@ class TodoService:
                     title=todo[1],
                     description=todo[2],
                     is_active=bool(todo[3]),
-                ).model_dump()
+                )
             )
 
         return todo_list
@@ -40,7 +40,7 @@ class TodoService:
             title=todo_row[1],
             description=todo_row[2],
             is_active=bool(todo_row[3]),
-        ).model_dump()
+        )
 
         return todo
 
