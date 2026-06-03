@@ -64,7 +64,7 @@ uv add -r requirements.txt
 Start the server:
 
 ```bash
-fastapi run
+fastapi run ./src/todo_api/main.py
 ```
 
 ## Endpoints
