@@ -75,10 +75,44 @@ fastapi run ./src/todo_api/main.py
 GET /api/todos
 ```
 
+Response body:
+
+```json
+{
+  "1":{
+    "title": "Learn SQL",
+    "description": "Study SQLite fundamentals",
+    "is_active": true
+  },
+  "2":{
+    "title": "Master Git & GitHub",
+    "description": "Learn branching, merging, and pull requests",
+    "is_active": true
+  },
+  "3": {
+    "title": "Deploy to Production",
+    "description": "Configure Docker container and push to AWS",
+    "is_active": false
+  }
+}
+```
+
 ### Get a task by ID
 
 ```http
 GET /api/todos/:id
+```
+
+Response body:
+
+```json
+{
+  "1":{
+    "title": "Build REST API",
+    "description": "Create CRUD endpoints using FastAPI or Flask",
+    "is_active": true
+  }
+}
 ```
 
 ### Create a task
@@ -91,8 +125,8 @@ Request body:
 
 ```json
 {
-  "title": "Learn SQL",
-  "description": "Study SQLite fundamentals",
+  "title": "UI/UX Design Review",
+  "description": "Adjust padding and colors based on Figma feedback",
   "is_active": true
 }
 ```
@@ -108,9 +142,9 @@ Request body:
 
 ```json
 {
-  "title": "Learn SQL",
-  "description": "Study SQLite fundamentals",
-  "is_active": true
+  "title": "Update Documentation",
+  "description": "Add the new environment variables to the README.md file",
+  "is_active": false
 }
 ```
 
