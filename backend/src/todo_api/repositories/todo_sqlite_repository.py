@@ -10,18 +10,6 @@ from ..validations.results import SQLValidationResult, SQLError
 class TodoSQLiteRepository:
     def __init__(self, connection: sqlite3.Connection):
         self._conn = connection
-        self.create_table()
-
-    def create_table(self):
-        cursor = self._conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS todos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL,
-                description TEXT,
-                is_active BOOLEAN
-            )
-        """)
 
     def get_todos(self) -> SQLValidationResult:
         try:

@@ -3,10 +3,6 @@ from abc import ABC, abstractmethod
 
 class TodoRepository(ABC):
     @abstractmethod
-    def create_table(self):
-        pass
-
-    @abstractmethod
     def get_all[T](self) -> T:
         pass
 
