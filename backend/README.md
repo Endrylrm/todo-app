@@ -44,14 +44,19 @@ CREATE TABLE todos (
 
 ## Installation
 
-Clone the repository:
+### Clone the repository:
 
 ```bash
 git clone <repository-url>
 cd <project-name>
 ```
 
-Install dependencies:
+### Create Venv (Optional)
+```bash
+py -m venv .venv
+```
+
+### Install dependencies:
 
 ```bash
 # using pip
@@ -61,7 +66,7 @@ pip install -r requirements.txt
 uv add -r requirements.txt
 ```
 
-Start the server:
+### Start the server:
 
 ```bash
 fastapi run ./src/todo_api/main.py
