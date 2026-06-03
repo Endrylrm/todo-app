@@ -103,39 +103,39 @@ uv run ./src/todo_gui/main.py
 ## Project Structure
 
 ```text
-backend/                                    # FastAPI + SQLite
+backend/                                # FastAPI + SQLite
 ├─── database/
-│    └─── todo.db					        # Todo - SQLite Database
+│    └─── todo.db					    # Todo - SQLite Database
 ├─── src/
 │    ├─── todo_api/
 │    │    ├─── controllers/
-│    │    │ 	  └─── todo_controller.py	# Controller - Todo API routing and controlling
+│    │    │    └─── todo_controller.py	# Controller - Todo API routing and controlling
 │    │    ├─── models/
-│    │    │ 	  └─── todo.py		        # Model - Todo Model
+│    │    │    └─── todo.py		        # Model - Todo Model
 │    │    ├─── repositories/
-│    │    │ 	  └─── todo_repository.py	# Repository - Todo Database
+│    │    │    └─── todo_repository.py	# Repository - Todo Database
 │    │    ├─── services/
-│    │    │ 	  └─── todo_service.py		# Service - Gets Data from todo Repository
+│    │    │    └─── todo_service.py		# Service - Gets Data from todo Repository
 │    │    ├─── validations/
-│    │    │ 	  └─── results.py	        # SQL Validation results
-│    │    └─── main.py					    # FastAPI - Entrypoint
-└─── tests/                                 # tests
+│    │    │    └─── results.py	        # SQL Validation results
+│    │    └─── main.py					# FastAPI - Entrypoint
+└─── tests/                             # tests
 
-frontend/                                   # NiceGUI + requests
+frontend/                               # NiceGUI + requests
 ├─── src/
 │    ├─── todo_api/
 │    │    ├─── components/
-│    │    │ 	  └─── todo_card.py	        # Card Component - The Todo that is show to the user
+│    │    │    └─── todo_card.py	    # Card Component - The Todo that is show to the user
 │    │    ├─── models/
-│    │    │ 	  └─── todo.py		        # Model - Todo Model
+│    │    │    └─── todo.py		        # Model - Todo Model
 │    │    ├─── pages/
-│    │    │ 	  ├─── add_todo_page.py	    # This page is show when we click the add button
-│    │    │ 	  ├─── edit_todo_page.py	# This page is show when we click the edit button in our card
-│    │    │ 	  └─── todo_page.py         # Main Page - Shows all todos currently in our database
+│    │    │    ├─── add_todo_page.py	# This page is show when we click the add button
+│    │    │    ├─── edit_todo_page.py	# This page is show when we click the edit button in our card
+│    │    │    └─── todo_page.py        # Main Page - Shows all todos currently in our database
 │    │    ├─── services/
-│    │    │ 	  └─── api_service.py	    # Service - Gets and sends Data to our Todo API.
-│    │    └─── main.py				        # NiceGui - Entrypoint
-└─── tests/                                 # tests
+│    │    │    └─── api_service.py	    # Service - Gets and sends Data to our Todo API.
+│    │    └─── main.py				    # NiceGui - Entrypoint
+└─── tests/                             # tests
 ```
 
 ## Future Improvements
