@@ -15,10 +15,12 @@ This project was developed to practice and demonstrate modern web development co
 
 ## Tech Stack
 
-- <b>Frontend:</b> Python - NiceGUI
-- <b>Backend:</b> Python - FastAPI
-- <b>Database:</b> SQLite
-- <b>Styling:</b> CSS / Tailwind CSS
+| Layer | Tools |
+|-------|--------|
+| **Frontend** | NiceGUI, requests |
+| **Backend** | FastAPI |
+| **Database** | SQLite |
+| **Styling** | CSS, Tailwind CSS |
 
 
 ## Getting Started
@@ -28,7 +30,7 @@ Make sure you have installed:
 - pip (or uv)
 - Database server (in case you want to use another database)
 
-## Deploy
+## Installation
 
 ### Option 1: Docker (Recommended)
 ```bash
@@ -106,7 +108,7 @@ backend/                                    # FastAPI + SQLite
 │    │    └─── main.py					    # FastAPI - Entrypoint
 └─── tests/                                 # tests
 
-frontend/                                   # NiceGui Frontend
+frontend/                                   # NiceGUI + requests
 ├─── src/
 │    ├─── todo_api/
 │    │    ├─── components/

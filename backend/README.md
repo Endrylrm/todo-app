@@ -6,9 +6,8 @@ This project was created for learning and educational purposes.
 
 ## Tech Stack
 
-- Python
+- Python - FastAPI
 - SQLite
-- FastAPI
 
 ## Folder Structure
 

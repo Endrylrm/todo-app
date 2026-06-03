@@ -16,8 +16,8 @@ This project was created for learning and educational purposes.
 ## Tech Stack
 
 - Python - NiceGui
-- TailwindCSS (Comes with NiceGui)
-- REST API Integration
+- CSS and TailwindCSS
+- requests - REST API Integration
 
 ## Getting Started
 
