@@ -15,6 +15,10 @@ class TodoRepository(ABC):
         pass
 
     @abstractmethod
+    def insert_many[T](self, entities: list[T]) -> T:
+        pass
+
+    @abstractmethod
     def update[T](self, id: str, entity: T) -> T:
         pass
 

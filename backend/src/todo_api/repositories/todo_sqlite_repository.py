@@ -53,6 +53,18 @@ class TodoSQLiteRepository(TodoRepository):
             self._conn.rollback()
             return SQLValidationResult(None, SQLError(error, True))
 
+    def insert_many(self, todos: list[Todo]) -> SQLValidationResult:
+        try:
+            for todo in todos:
+                self.insert_one(todo)
+
+            return SQLValidationResult(None, SQLError("", False))
+
+        except sqlite3.Error as error:
+            print(f"Error: {error}")
+            self._conn.rollback()
+            return SQLValidationResult(None, SQLError(error, True))
+
     def update(self, id: str, todo: Todo) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
