@@ -31,7 +31,6 @@ class EditTodoPage:
                         ),
                         color="green",
                     )
-                ui.space()
                 with ui.link(target="/"):
                     ui.button(
                         "Delete Todo",
@@ -39,6 +38,7 @@ class EditTodoPage:
                         color="red",
                         on_click=lambda: self.delete_todo(id),
                     )
+                ui.space()
                 with ui.link(target="/"):
                     ui.button("Return Home", icon="home")
 
