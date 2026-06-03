@@ -1,4 +1,4 @@
-# ToDo Application
+# Todo Application
 
 A simple and efficient task management application designed to help users organize their daily activities, track progress, and improve productivity.
 
@@ -26,9 +26,9 @@ Make sure you have installed:
 
 - Python (or Docker)
 - pip (or uv)
-- Database server (in case you want to change from SQLite)
+- Database server (in case you want to use another database)
 
-## Installation
+## Deploy
 
 ### Option 1: Docker (Recommended)
 ```bash
@@ -88,7 +88,7 @@ uv run ./src/todo_gui/main.py
 ## Project Structure
 
 ```text
-backend/
+backend/                                    # FastAPI + SQLite
 ├─── database/
 │    └─── todo.db					        # Todo - SQLite Database
 ├─── src/
@@ -106,7 +106,7 @@ backend/
 │    │    └─── main.py					    # FastAPI - Entrypoint
 └─── tests/                                 # tests
 
-frontend/
+frontend/                                   # NiceGui Frontend
 ├─── src/
 │    ├─── todo_api/
 │    │    ├─── components/
@@ -131,6 +131,7 @@ frontend/
 - Due dates and reminders
 - Task sharing and collaboration
 - Drag-and-drop task organization
+- Add SQLAlchemy for database agnostic code
 
 ## License
 
