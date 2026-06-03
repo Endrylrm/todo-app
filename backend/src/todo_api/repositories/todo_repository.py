@@ -11,15 +11,15 @@ class TodoRepository(ABC):
         pass
 
     @abstractmethod
-    def save[T](self, entity: T) -> T:
+    def insert_one[T](self, entity: T) -> T:
         pass
 
     @abstractmethod
-    def edit[T](self, id: str, entity: T) -> T:
+    def update[T](self, id: str, entity: T) -> T:
         pass
 
     @abstractmethod
-    def edit_everything[T](self, id: str, entity: T) -> T:
+    def update_everything[T](self, id: str, entity: T) -> T:
         pass
 
     @abstractmethod

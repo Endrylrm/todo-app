@@ -2,16 +2,18 @@ import sqlite3
 
 from typing import Any
 
+from .todo_repository import TodoRepository
+
 from ..models.todo import Todo
 
 from ..validations.results import SQLValidationResult, SQLError
 
 
-class TodoSQLiteRepository:
+class TodoSQLiteRepository(TodoRepository):
     def __init__(self, connection: sqlite3.Connection):
         self._conn = connection
 
-    def get_todos(self) -> SQLValidationResult:
+    def get_all(self) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
             cursor.execute("SELECT * FROM todos")
@@ -22,7 +24,7 @@ class TodoSQLiteRepository:
             print(f"Error: {error}")
             return SQLValidationResult(None, SQLError(error, True))
 
-    def get_todo(self, id: int) -> SQLValidationResult:
+    def get_one(self, id: str) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
             cursor.execute("SELECT * FROM todos WHERE id = ?", (id,))
@@ -32,7 +34,7 @@ class TodoSQLiteRepository:
             print(f"Error: {error}")
             return SQLValidationResult(None, SQLError(error, True))
 
-    def insert_todo(self, todo: Todo) -> SQLValidationResult:
+    def insert_one(self, todo: Todo) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
             cursor.execute(
@@ -51,22 +53,7 @@ class TodoSQLiteRepository:
             self._conn.rollback()
             return SQLValidationResult(None, SQLError(error, True))
 
-    def update_todo_completely(self, id: int, todo: Todo) -> SQLValidationResult:
-        try:
-            cursor = self._conn.cursor()
-            cursor.execute(
-                "UPDATE todos SET title = ?, description = ?, is_active = ? WHERE id = ?",
-                (todo.title, todo.description, int(todo.is_active), id),
-            )
-            self._conn.commit()
-            return SQLValidationResult(None, SQLError("", False))
-
-        except sqlite3.Error as error:
-            print(f"Error: {error}")
-            self._conn.rollback()
-            return SQLValidationResult(None, SQLError(error, True))
-
-    def update_todo(self, id: int, todo: Todo) -> SQLValidationResult:
+    def update(self, id: str, todo: Todo) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
             sql = "UPDATE todos SET "
@@ -99,7 +86,22 @@ class TodoSQLiteRepository:
             self._conn.rollback()
             return SQLValidationResult(None, SQLError(error, True))
 
-    def delete_todo(self, id: int) -> SQLValidationResult:
+    def update_everything(self, id: str, todo: Todo) -> SQLValidationResult:
+        try:
+            cursor = self._conn.cursor()
+            cursor.execute(
+                "UPDATE todos SET title = ?, description = ?, is_active = ? WHERE id = ?",
+                (todo.title, todo.description, int(todo.is_active), id),
+            )
+            self._conn.commit()
+            return SQLValidationResult(None, SQLError("", False))
+
+        except sqlite3.Error as error:
+            print(f"Error: {error}")
+            self._conn.rollback()
+            return SQLValidationResult(None, SQLError(error, True))
+
+    def delete(self, id: str) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
             cursor.execute("DELETE FROM todos WHERE id = ?", (id,))

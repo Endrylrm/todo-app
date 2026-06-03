@@ -1,16 +1,16 @@
 from typing import Any
 
 from ..models.todo import Todo
-from ..repositories.todo_sqlite_repository import TodoSQLiteRepository
+from ..repositories.todo_repository import TodoRepository
 from ..validations.results import SQLError
 
 
 class TodoService:
-    def __init__(self, repository: TodoSQLiteRepository):
+    def __init__(self, repository: TodoRepository):
         self._repository = repository
 
     def get_todos(self) -> dict[str, Any]:
-        result = self._repository.get_todos()
+        result = self._repository.get_all()
 
         if result.error.value:
             return {"failed": "SQL Error", "error": result.error.message}
@@ -25,8 +25,8 @@ class TodoService:
 
         return todos
 
-    def get_todo(self, id: int) -> dict[str, Any]:
-        result = self._repository.get_todo(id)
+    def get_todo(self, id: str) -> dict[str, Any]:
+        result = self._repository.get_one(id)
 
         if result.error.value:
             return {"failed": "SQL Error", "error": result.error.message}
@@ -41,17 +41,17 @@ class TodoService:
         return todo
 
     def insert_todo(self, todo: Todo) -> SQLError:
-        result = self._repository.insert_todo(todo)
+        result = self._repository.insert_one(todo)
         return result.error
 
-    def update_todo_completely(self, id: int, todo: Todo) -> SQLError:
-        result = self._repository.update_todo_completely(id, todo)
+    def update_todo(self, id: str, todo: Todo) -> SQLError:
+        result = self._repository.update(id, todo)
         return result.error
 
-    def update_todo(self, id: int, todo: Todo) -> SQLError:
-        result = self._repository.update_todo(id, todo)
+    def update_todo_completely(self, id: str, todo: Todo) -> SQLError:
+        result = self._repository.update_everything(id, todo)
         return result.error
 
-    def delete_todo(self, id: int) -> SQLError:
-        result = self._repository.delete_todo(id)
+    def delete_todo(self, id: str) -> SQLError:
+        result = self._repository.delete(id)
         return result.error
