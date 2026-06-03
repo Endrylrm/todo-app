@@ -13,21 +13,21 @@ This project was created for learning and educational purposes.
 
 ```text
 database/
-└─── todo.db					                    # Todo - SQLite Database
+└─── todo.db                              # Todo - SQLite Database
 src/
 ├─── todo_api/
 │    ├─── controllers/
-│    │ 	  └─── todo_controller.py	        # Controller - Todo API routing and controlling
+│    │ 	  └─── todo_controller.py         # Controller - Todo API routing and controlling
 │    ├─── models/
-│    │ 	  └─── todo.py		                # Model - Todo Model
+│    │ 	  └─── todo.py                    # Model - Todo Model
 │    ├─── repositories/
-│    │    ├─── todo_repository.py			    # Repository Interface - Todo Database
-│    │ 	  └─── todo_sqlite_repository.py	# Repository - Todo SQLite Database
+│    │    ├─── todo_repository.py         # Repository Interface - Todo Database
+│    │ 	  └─── todo_sqlite_repository.py  # Repository - Todo SQLite Database
 │    ├─── services/
-│    │ 	  └─── todo_service.py		        # Service - Gets Data from todo Repository
+│    │ 	  └─── todo_service.py            # Service - Gets Data from todo Repository
 │    ├─── validations/
-│    │ 	  └─── results.py	                # SQL Validation results
-│    └─── main.py					                # FastAPI - Entrypoint
+│    │ 	  └─── results.py                 # SQL Validation results
+│    └─── main.py                         # FastAPI - Entrypoint
 tests/                                    # tests
 ```
 
