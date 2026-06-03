@@ -4,7 +4,7 @@ A simple backend API for task management using SQLite.
 
 This project was created for learning and educational purposes.
 
-## Technologies
+## Tech Stack
 
 - Python
 - SQLite
@@ -51,15 +51,11 @@ git clone <repository-url>
 cd <project-name>
 ```
 
-### Create Venv (Optional)
-```bash
-py -m venv .venv
-```
-
 ### Install dependencies:
 
 ```bash
 # using pip
+py -m venv .venv
 pip install -r requirements.txt
 
 # using uv
