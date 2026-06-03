@@ -2,13 +2,13 @@ from nicegui import ui
 
 from models.todo import Todo
 
-from services.api_service import APIService
+from services.api_client_service import APIClientService
 
 from pages.todo_page import TodoPage
 from pages.add_todo_page import AddTodoPage
 from pages.edit_todo_page import EditTodoPage
 
-api = APIService("http://localhost:8000/api/todos")
+client = APIClientService("http://localhost:8000/api/todos")
 
 
 def root():
@@ -20,9 +20,9 @@ def root():
         ui.label("Todo Application").classes("text-3xl")
     ui.sub_pages(
         {
-            "/": lambda: TodoPage(api),
-            "/add": lambda: AddTodoPage(api),
-            "/edit/{id}": lambda id: EditTodoPage(id, api),
+            "/": lambda: TodoPage(client),
+            "/add": lambda: AddTodoPage(client),
+            "/edit/{id}": lambda id: EditTodoPage(id, client),
         }
     ).classes("w-full")
 

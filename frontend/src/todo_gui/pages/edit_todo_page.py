@@ -2,12 +2,12 @@ from nicegui import ui
 
 from models.todo import Todo
 
-from services.api_service import APIService
+from services.api_client_service import APIClientService
 
 
 class EditTodoPage:
-    def __init__(self, id: int, service: APIService):
-        self._service = service
+    def __init__(self, id: int, client: APIClientService):
+        self._client = client
 
         self.render(id)
 

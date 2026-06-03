@@ -2,12 +2,12 @@ from nicegui import ui
 
 from models.todo import Todo
 
-from services.api_service import APIService
+from services.api_client_service import APIClientService
 
 
 class AddTodoPage:
-    def __init__(self, service: APIService):
-        self._service = service
+    def __init__(self, client: APIClientService):
+        self._client = client
 
         self.render()
 
@@ -29,5 +29,5 @@ class AddTodoPage:
                     ui.button("Return Home", icon="home")
 
     def create_todo(self, title: str, description: str, is_active: bool):
-        self._service.insert_todo(Todo(title, description, is_active))
+        self._client.insert_todo(Todo(title, description, is_active))
         ui.notify(f"Todo Created!")

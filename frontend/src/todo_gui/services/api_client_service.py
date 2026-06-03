@@ -3,7 +3,7 @@ import requests
 from models.todo import Todo
 
 
-class APIService:
+class APIClientService:
     def __init__(self, url: str):
         self._url = url
 
