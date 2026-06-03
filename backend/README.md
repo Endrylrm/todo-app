@@ -104,6 +104,16 @@ PUT /api/todos/:id
 PATCH /api/todos/:id
 ```
 
+Request body:
+
+```json
+{
+  "title": "Learn SQL",
+  "description": "Study SQLite fundamentals",
+  "is_active": true
+}
+```
+
 ### Delete a task
 
 ```http
