@@ -110,6 +110,8 @@ backend/                                        # FastAPI + SQLite
 │    ├─── todo_api/
 │    │    ├─── controllers/
 │    │    │    └─── todo_controller.py	        # Controller - Todo API routing and controlling
+│    │    ├─── databases/
+│    │    │    └─── sqlite.py	                # Database - SQLite connection and initialization
 │    │    ├─── models/
 │    │    │    └─── todo.py		                # Model - Todo Model
 │    │    ├─── repositories/
