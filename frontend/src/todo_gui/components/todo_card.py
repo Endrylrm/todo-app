@@ -5,12 +5,12 @@ from services.api_client_service import APIClientService
 
 
 class TodoCard(ui.card):
-    def __init__(self, index: int, todo: Todo, client: APIClientService):
+    def __init__(self, index: int, todo: Todo, api_client: APIClientService):
         super().__init__()
         self.classes("col-span-4 md:col-span-2 lg:col-span-1")
         self.tight()
 
-        self._client = client
+        self._api_client = api_client
 
         self.title = todo.title
         self.description = todo.description
@@ -31,5 +31,5 @@ class TodoCard(ui.card):
                     )
 
     def delete_todo(self, id: int):
-        self._client.delete_todo(id)
+        self._api_client.delete_todo(id)
         self.delete()

@@ -6,8 +6,8 @@ from services.api_client_service import APIClientService
 
 
 class AddTodoPage:
-    def __init__(self, client: APIClientService):
-        self._client = client
+    def __init__(self, api_client: APIClientService):
+        self.api_client = api_client
 
         self.render()
 
@@ -29,5 +29,5 @@ class AddTodoPage:
                     ui.button("Return Home", icon="home")
 
     def create_todo(self, title: str, description: str, is_active: bool):
-        self._client.insert_todo(Todo(title, description, is_active))
+        self.api_client.insert_todo(Todo(title, description, is_active))
         ui.notify(f"Todo Created!")

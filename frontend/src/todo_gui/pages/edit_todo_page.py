@@ -6,13 +6,13 @@ from services.api_client_service import APIClientService
 
 
 class EditTodoPage:
-    def __init__(self, id: int, client: APIClientService):
-        self._client = client
+    def __init__(self, id: int, api_client: APIClientService):
+        self._api_client = api_client
 
         self.render(id)
 
     def render(self, id: int):
-        todo = self._service.get_todo(id)
+        todo = self._api_client.get_todo(id)
 
         with ui.grid(columns=1).classes("w-full gap-1"):
             title = ui.input("Title:")
@@ -43,9 +43,9 @@ class EditTodoPage:
                     ui.button("Return Home", icon="home")
 
     def edit_todo(self, id: int, title: str, description: str, is_active: bool):
-        self._service.update_todo(id, Todo(title, description, is_active))
+        self._api_client.update_todo(id, Todo(title, description, is_active))
 
         ui.notify(f"Todo Updated!")
 
     def delete_todo(self, id: int):
-        self._service.delete_todo(id)
+        self._api_client.delete_todo(id)
