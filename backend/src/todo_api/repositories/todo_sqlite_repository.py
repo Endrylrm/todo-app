@@ -136,7 +136,7 @@ class TodoSQLiteRepository(TodoRepository):
             self._conn.rollback()
             return SQLValidationResult(None, SQLError(error, True))
 
-    def delete_many(self, ids: str) -> SQLValidationResult:
+    def delete_many(self, ids: list[str]) -> SQLValidationResult:
         try:
             for id in ids:
                 self.delete_one(id)
