@@ -33,53 +33,66 @@ Make sure you have installed:
 ## Installation
 
 ### Option 1: Docker (Recommended)
+
+#### - Clone the repository:
 ```bash
-# Clone the repository
 git clone <repository-url>
+```
 
-# Navigate to the project folder
+#### - Navigate to project folder:
+```bash
 cd todo-app
+```
 
-# use Docker Compose
+#### - use Docker Compose to build and deploy:
+```bash
 docker compose up -d --build
 ```
 
-### Option 2: Python
+### Option 2: Manual deploy
+
+#### - Clone the repository:
 ```bash
-# Clone the repository
 git clone <repository-url>
+```
 
-# Navigate to the project folder
-cd todo-app
+#### - Navigate to Backend folder:
+```bash
+cd todo-app/backend
+```
 
-# Navigate to folder - Backend
-cd backend
-
-# Install dependencies - Backend
+#### - Install dependencies - Backend:
+```bash
 # using pip
 py -m venv .venv
 pip install -r requirements.txt
 
 # using uv
 uv add -r requirements.txt
+```
 
-# Start the Backend server
+#### - Start the Backend server:
+```bash
 fastapi run ./src/todo_api/main.py
+```
 
-# ******** Open new terminal ********
+#### - Open a new terminal and navigate to Frontend Folder:
+```bash
+cd /path/to/folder/todo-app/frontend
+```
 
-# Navigate to folder - Frontend
-cd frontend
-
-# Install dependencies - Frontend
+#### - Install dependencies - Frontend:
+```bash
 # using pip
 py -m venv .venv
 pip install -r requirements.txt
 
 # using uv
 uv add -r requirements.txt
+```
 
-# Start the Frontend server
+#### - Start the Frontend server:
+```bash
 # using python
 py run ./src/todo_gui/main.py
 
