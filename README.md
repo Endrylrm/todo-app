@@ -134,7 +134,7 @@ frontend/                                       # NiceGUI + requests
 │    │    │    ├─── edit_todo_page.py	        # This page is show when we click the edit button in our card
 │    │    │    └─── todo_page.py                # Main Page - Shows all todos currently in our database
 │    │    ├─── services/
-│    │    │    └─── api_service.py	            # Service - Gets and sends Data to our Todo API.
+│    │    │    └─── api_client_service.py	    # Service - Gets and sends Data to our Todo API.
 │    │    └─── main.py				            # NiceGui - Entrypoint
 └─── tests/                                     # tests
 ```
