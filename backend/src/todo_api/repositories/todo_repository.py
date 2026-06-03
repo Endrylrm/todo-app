@@ -31,5 +31,5 @@ class TodoRepository(ABC):
         pass
 
     @abstractmethod
-    def delete[T](self, id: str) -> T:
+    def delete_one[T](self, id: str) -> T:
         pass

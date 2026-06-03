@@ -124,7 +124,7 @@ class TodoSQLiteRepository(TodoRepository):
             self._conn.rollback()
             return SQLValidationResult(None, SQLError(error, True))
 
-    def delete(self, id: str) -> SQLValidationResult:
+    def delete_one(self, id: str) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
             cursor.execute("DELETE FROM todos WHERE id = ?", (id,))

@@ -53,5 +53,5 @@ class TodoService:
         return result.error
 
     def delete_todo(self, id: str) -> SQLError:
-        result = self._repository.delete(id)
+        result = self._repository.delete_one(id)
         return result.error
