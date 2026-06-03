@@ -65,7 +65,7 @@ class TodoSQLiteRepository(TodoRepository):
             self._conn.rollback()
             return SQLValidationResult(None, SQLError(error, True))
 
-    def update(self, id: str, todo: Todo) -> SQLValidationResult:
+    def update_one(self, id: str, todo: Todo) -> SQLValidationResult:
         try:
             cursor = self._conn.cursor()
             sql = "UPDATE todos SET "
@@ -91,6 +91,17 @@ class TodoSQLiteRepository(TodoRepository):
                 tuple(temp_parameter_list),
             )
             self._conn.commit()
+            return SQLValidationResult(None, SQLError("", False))
+
+        except sqlite3.Error as error:
+            print(f"Error: {error}")
+            self._conn.rollback()
+            return SQLValidationResult(None, SQLError(error, True))
+
+    def update_many(self, todos: list[Todo]) -> SQLValidationResult:
+        try:
+            for todo in todos:
+                self.update(1, todos)
             return SQLValidationResult(None, SQLError("", False))
 
         except sqlite3.Error as error:

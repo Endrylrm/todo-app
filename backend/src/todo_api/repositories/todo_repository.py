@@ -19,7 +19,11 @@ class TodoRepository(ABC):
         pass
 
     @abstractmethod
-    def update[T](self, id: str, entity: T) -> T:
+    def update_one[T](self, id: str, entity: T) -> T:
+        pass
+
+    @abstractmethod
+    def update_many[T](self, entities: list[T]) -> T:
         pass
 
     @abstractmethod

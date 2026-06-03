@@ -45,7 +45,7 @@ class TodoService:
         return result.error
 
     def update_todo(self, id: str, todo: Todo) -> SQLError:
-        result = self._repository.update(id, todo)
+        result = self._repository.update_one(id, todo)
         return result.error
 
     def update_todo_completely(self, id: str, todo: Todo) -> SQLError:
