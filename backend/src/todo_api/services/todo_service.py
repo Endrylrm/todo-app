@@ -1,12 +1,12 @@
 from typing import Any
 
 from ..models.todo import Todo
-from ..repositories.todo_repository import TodoRepository
+from ..repositories.todo_sqlite_repository import TodoSQLiteRepository
 from ..validations.results import SQLError
 
 
 class TodoService:
-    def __init__(self, repository: TodoRepository):
+    def __init__(self, repository: TodoSQLiteRepository):
         self._repository = repository
 
     def get_todos(self) -> dict[str, Any]:
