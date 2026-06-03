@@ -101,7 +101,7 @@ class TodoSQLiteRepository(TodoRepository):
     def update_many(self, todos: list[Todo]) -> SQLValidationResult:
         try:
             for todo in todos:
-                self.update(1, todos)
+                self.update_one(1, todo)
             return SQLValidationResult(None, SQLError("", False))
 
         except sqlite3.Error as error:
@@ -129,6 +129,17 @@ class TodoSQLiteRepository(TodoRepository):
             cursor = self._conn.cursor()
             cursor.execute("DELETE FROM todos WHERE id = ?", (id,))
             self._conn.commit()
+            return SQLValidationResult(None, SQLError("", False))
+
+        except sqlite3.Error as error:
+            print(f"Error: {error}")
+            self._conn.rollback()
+            return SQLValidationResult(None, SQLError(error, True))
+
+    def delete_many(self, ids: str) -> SQLValidationResult:
+        try:
+            for id in ids:
+                self.delete_one(id)
             return SQLValidationResult(None, SQLError("", False))
 
         except sqlite3.Error as error:
