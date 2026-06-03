@@ -13,21 +13,22 @@ This project was created for learning and educational purposes.
 
 ```text
 database/
-└─── todo.db					    # Todo - SQLite Database
+└─── todo.db					                    # Todo - SQLite Database
 src/
 ├─── todo_api/
 │    ├─── controllers/
-│    │ 	  └─── todo_controller.py	# Controller - Todo API routing and controlling
+│    │ 	  └─── todo_controller.py	        # Controller - Todo API routing and controlling
 │    ├─── models/
-│    │ 	  └─── todo.py		        # Model - Todo Model
+│    │ 	  └─── todo.py		                # Model - Todo Model
 │    ├─── repositories/
-│    │ 	  └─── todo_repository.py	# Repository - Todo Database
+│    │    ├─── todo_repository.py			    # Repository Interface - Todo Database
+│    │ 	  └─── todo_sqlite_repository.py	# Repository - Todo SQLite Database
 │    ├─── services/
-│    │ 	  └─── todo_service.py		# Service - Gets Data from todo Repository
+│    │ 	  └─── todo_service.py		        # Service - Gets Data from todo Repository
 │    ├─── validations/
-│    │ 	  └─── results.py	        # SQL Validation results
-│    └─── main.py					# FastAPI - Entrypoint
-tests/                              # tests
+│    │ 	  └─── results.py	                # SQL Validation results
+│    └─── main.py					                # FastAPI - Entrypoint
+tests/                                    # tests
 ```
 
 ## Database Schema
@@ -79,21 +80,26 @@ Response body:
 
 ```json
 {
-  "1":{
-    "title": "Learn SQL",
-    "description": "Study SQLite fundamentals",
-    "is_active": true
-  },
-  "2":{
-    "title": "Master Git & GitHub",
-    "description": "Learn branching, merging, and pull requests",
-    "is_active": true
-  },
-  "3": {
-    "title": "Deploy to Production",
-    "description": "Configure Docker container and push to AWS",
-    "is_active": false
-  }
+  "todos": [
+    {
+      "id": 1,
+      "title": "Learn SQL",
+      "description": "Study SQLite fundamentals",
+      "is_active": true
+    },
+    {
+      "id": 2,
+      "title": "Master Git & GitHub",
+      "description": "Learn branching, merging, and pull requests",
+      "is_active": true
+    },
+    {
+      "id": 3,
+      "title": "Deploy to Production",
+      "description": "Configure Docker container and push to AWS",
+      "is_active": false
+    }
+  ]
 }
 ```
 
@@ -106,12 +112,12 @@ GET /api/todos/:id
 Response body:
 
 ```json
+
 {
-  "1":{
-    "title": "Build REST API",
-    "description": "Create CRUD endpoints using FastAPI or Flask",
-    "is_active": true
-  }
+  "id": 1,
+  "title": "Build REST API",
+  "description": "Create CRUD endpoints using FastAPI or Flask",
+  "is_active": true
 }
 ```
 

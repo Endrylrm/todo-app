@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 
-from ..models.todo import Todo
+from ..models.todo import Todo, TodoList
 
 from ..services.todo_service import TodoService
 
@@ -35,10 +35,10 @@ class TodoController:
             status_code=status.HTTP_200_OK,
         )
 
-    async def get_todos(self) -> dict[str, Todo]:
+    async def get_todos(self) -> TodoList:
         return self._service.get_todos()
 
-    async def get_todo(self, id: int) -> dict[str, Todo]:
+    async def get_todo(self, id: int) -> Todo | dict[str, str]:
         if id < 1:
             return {"failed": "Out of bounds!", "error": "Invalid ID range!"}
         return self._service.get_todo(id)

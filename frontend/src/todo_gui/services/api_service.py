@@ -11,17 +11,18 @@ class APIService:
         r = requests.get(self._url)
 
         todos = {}
-        for key in r.json():
-            todos[key] = Todo(**r.json()[key])
+        for todo in r.json()["todos"]:
+            id = todo["id"]
+            todo_params = {key: value for key, value in todo.items() if key != "id"}
+            todos[str(id)] = Todo(**todo_params)
 
         return todos
 
-    def get_todo(self, id: int) -> dict[str, Todo]:
+    def get_todo(self, id: int) -> Todo:
         r = requests.get(f"{self._url}/{id}")
 
-        for key in r.json():
-            todo = Todo(**r.json()[key])
-
+        todo_params = {key: value for key, value in r.json().items() if key != "id"}
+        todo = Todo(**todo_params)
         return todo
 
     def insert_todo(self, todo: Todo):
