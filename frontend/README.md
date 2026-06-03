@@ -16,8 +16,8 @@ This project was created for learning and educational purposes.
 ## Tech Stack
 
 - Python - NiceGui
-- TailwindCSS (Comes with NiceGui)
-- REST API Integration
+- CSS and TailwindCSS
+- requests - REST API Integration
 
 ## Getting Started
 
@@ -28,15 +28,11 @@ git clone <repository-url>
 cd <project-name>
 ```
 
-### Create Venv (Optional)
-```bash
-py -m venv .venv
-```
-
 ### Install dependencies
 
 ```bash
 # using pip
+py -m venv .venv
 pip install -r requirements.txt
 
 # using uv
