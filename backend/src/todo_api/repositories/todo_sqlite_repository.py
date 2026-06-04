@@ -17,19 +17,19 @@ class TodoSQLiteRepository(TodoRepository):
     def __init__(self, connection: sqlite3.Connection):
         self._conn = connection
 
-    def get_all(self) -> Any:
+    async def get_all(self) -> Any:
         cursor = self._conn.cursor()
         cursor.execute("SELECT * FROM todos")
         todos = cursor.fetchall()
         return todos
 
-    def get_one(self, id: str) -> Any:
+    async def get_one(self, id: str) -> Any:
         cursor = self._conn.cursor()
         cursor.execute("SELECT * FROM todos WHERE id = ?", (id,))
         todo = cursor.fetchone()
         return todo
 
-    def insert_one(self, todo: Todo):
+    async def insert_one(self, todo: Todo):
         self._check_empty_todo(todo)
         self._validate_todo(todo)
 
@@ -44,11 +44,11 @@ class TodoSQLiteRepository(TodoRepository):
         )
         self._conn.commit()
 
-    def insert_many(self, todos: list[Todo]):
+    async def insert_many(self, todos: list[Todo]):
         for todo in todos:
             self.insert_one(todo)
 
-    def update_one(self, id: str, todo: Todo):
+    async def update_one(self, id: str, todo: Todo):
         # we don't accept empty todos.
         self._check_empty_todo(todo)
 
@@ -83,11 +83,11 @@ class TodoSQLiteRepository(TodoRepository):
         )
         self._conn.commit()
 
-    def update_many(self, todos: list[Todo]):
+    async def update_many(self, todos: list[Todo]):
         for todo in todos:
             self.update_one(todo.id, todo)
 
-    def update_everything(self, id: str, todo: Todo):
+    async def update_everything(self, id: str, todo: Todo):
         self._check_empty_todo(todo)
         self._validate_todo(todo)
 
@@ -106,7 +106,7 @@ class TodoSQLiteRepository(TodoRepository):
         )
         self._conn.commit()
 
-    def delete_one(self, id: str):
+    async def delete_one(self, id: str):
         # check if todo exist
         todo = self.get_one(id)
 
@@ -117,7 +117,7 @@ class TodoSQLiteRepository(TodoRepository):
         cursor.execute("DELETE FROM todos WHERE id = ?", (id,))
         self._conn.commit()
 
-    def delete_many(self, ids: list[str]):
+    async def delete_many(self, ids: list[str]):
         for id in ids:
             self.delete_one(id)
 

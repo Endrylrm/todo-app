@@ -9,7 +9,7 @@ class TodoService:
         self._repository = repository
 
     async def get_todos(self) -> TodoList:
-        result = self._repository.get_all()
+        result = await self._repository.get_all()
 
         todo_list = TodoList()
 
@@ -26,7 +26,7 @@ class TodoService:
         return todo_list
 
     async def get_todo(self, id: str) -> Todo:
-        result = self._repository.get_one(id)
+        result = await self._repository.get_one(id)
 
         if not result:
             raise TodoNotFoundError(id)
@@ -41,13 +41,13 @@ class TodoService:
         return todo
 
     async def insert_todo(self, todo: Todo):
-        self._repository.insert_one(todo)
+        await self._repository.insert_one(todo)
 
     async def update_todo(self, id: str, todo: Todo):
-        self._repository.update_one(id, todo)
+        await self._repository.update_one(id, todo)
 
     async def update_todo_completely(self, id: str, todo: Todo):
-        self._repository.update_everything(id, todo)
+        await self._repository.update_everything(id, todo)
 
     async def delete_todo(self, id: str):
-        self._repository.delete_one(id)
+        await self._repository.delete_one(id)
