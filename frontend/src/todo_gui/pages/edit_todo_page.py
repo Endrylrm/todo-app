@@ -51,7 +51,7 @@ class EditTodoPage:
                     with ui.link(target="/"):
                         ui.button("Return Home", icon="home")
             else:
-                with ui.grid(columns=1).classes("w-full gap-4"):
+                with ui.grid(columns=1).classes("w-full gap-4 place-items-center"):
                     ui.label("Unexpected error, try again...").classes("text-5xl")
                     with ui.link(target="/"):
                         ui.button("Return Home", icon="home")
