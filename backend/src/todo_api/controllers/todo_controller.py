@@ -36,10 +36,10 @@ class TodoController:
         )
 
     async def get_todos(self) -> TodoList:
-        return self._service.get_todos()
+        return await self._service.get_todos()
 
     async def get_todo(self, id: int) -> Todo | dict[str, str]:
-        return self._service.get_todo(id)
+        return await self._service.get_todo(id)
 
     async def insert_todo(self, todo: Todo):
         await self._service.insert_todo(todo)
