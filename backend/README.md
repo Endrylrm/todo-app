@@ -79,6 +79,8 @@ fastapi run ./src/todo_api/main.py
 GET /api/todos
 ```
 
+#### Example Request:
+
 Response (Status 200 OK):
 
 ```json
@@ -112,6 +114,9 @@ Response (Status 200 OK):
 GET /api/todos/:id
 ```
 
+#### Example Request:
+
+Path Param: id = 1 <br>
 Response (Status 200 OK):
 
 ```json
@@ -128,6 +133,8 @@ Response (Status 200 OK):
 ```http
 POST /api/todos
 ```
+
+#### Example Request:
 
 Request body (Status 201 OK):
 
@@ -147,10 +154,34 @@ Response (Status 200 OK):
 ### Update a task
 
 ```http
-PUT /api/todos/:id
 PATCH /api/todos/:id
 ```
 
+#### Example Request:
+
+Path Param: id = 3 <br>
+Request body (Status 200 OK):
+
+```json
+{
+  "title": "Update Documentation"
+}
+```
+
+Response (Status 200 OK):
+```json
+{"success": "todo 3 updated!"}
+```
+
+### Update a task or Create a task at id
+
+```http
+PUT /api/todos/:id
+```
+
+#### Example Request:
+
+Path Param: id = 2 <br>
 Request body (Status 200 OK):
 
 ```json
@@ -163,7 +194,7 @@ Request body (Status 200 OK):
 
 Response (Status 200 OK):
 ```json
-{"success": "todo 3 updated!"}
+{"success": "todo 2 completely updated!"}
 ```
 
 ### Delete a task
@@ -171,6 +202,10 @@ Response (Status 200 OK):
 ```http
 DELETE /api/todos/:id
 ```
+
+#### Example Request:
+
+Path Param: id = 1
 
 Response (Status 200 OK):
 ```json
