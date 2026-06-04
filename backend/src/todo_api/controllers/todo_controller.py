@@ -42,21 +42,21 @@ class TodoController:
         return self._service.get_todo(id)
 
     async def insert_todo(self, todo: Todo):
-        self._service.insert_todo(todo)
+        await self._service.insert_todo(todo)
 
         return {"success": "todo created!"}
 
     async def update_todo(self, id: int, todo: Todo):
-        self._service.update_todo(id, todo)
+        await self._service.update_todo(id, todo)
 
         return {"success": f"todo {id} updated!"}
 
     async def update_todo_completely(self, id: int, todo: Todo):
-        self._service.update_todo_completely(id, todo)
+        await self._service.update_todo_completely(id, todo)
 
         return {"success": f"todo {id} completely updated!"}
 
     async def delete_todo(self, id: int):
-        self._service.delete_todo(id)
+        await self._service.delete_todo(id)
 
         return {"success": f"todo {id} deleted!"}
