@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
@@ -12,8 +17,9 @@ from .exceptions.errors import (
     TodoEmptyDataError,
 )
 
+DB_URL = os.getenv("DATABASE_URL")
 app = FastAPI()
-db = SQLiteDB("database/todo.db")
+db = SQLiteDB(DB_URL)
 db.init_db()
 
 repository = TodoSQLiteRepository(db.create_connection())

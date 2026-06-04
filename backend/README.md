@@ -31,6 +31,7 @@ src/
 │    │ 	  └─── results.py                 # SQL Validation results
 │    └─── main.py                         # FastAPI - Entrypoint
 tests/                                    # tests
+.env                                      # Enviroment Variables
 ```
 
 ## Database Schema

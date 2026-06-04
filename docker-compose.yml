@@ -8,6 +8,8 @@ services:
     container_name: backend
     hostname: backend
     restart: "unless-stopped"
+    env_file:
+      - ./backend/.env
     ports:
       - 8000:8000
     volumes:
@@ -24,6 +26,8 @@ services:
     depends_on:
       - backend
     restart: "unless-stopped"
+    env_file:
+      - ./frontend/.env
     ports:
       - 3000:3000
     networks:

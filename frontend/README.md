@@ -84,6 +84,7 @@ src/
 │    │ 	  └─── api_client_service.py    # Service - Gets and sends Data to our Todo API.
 │    └─── main.py				        # NiceGui - Entrypoint
 tests/                                  # tests
+.env                                    # Enviroment Variables
 ```
 
 ## Available Features

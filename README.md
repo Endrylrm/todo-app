@@ -122,7 +122,8 @@ backend/                                        # FastAPI + SQLite
 │    │    ├─── validations/
 │    │    │    └─── results.py	                # SQL Validation results
 │    │    └─── main.py					        # FastAPI - Entrypoint
-└─── tests/                                     # tests
+├─── tests/                                     # tests
+└─── .env                                       # Enviroment Variables
 
 frontend/                                       # NiceGUI + requests
 ├─── src/
@@ -138,7 +139,8 @@ frontend/                                       # NiceGUI + requests
 │    │    ├─── services/
 │    │    │    └─── api_client_service.py	    # Service - Gets and sends Data to our Todo API.
 │    │    └─── main.py				            # NiceGui - Entrypoint
-└─── tests/                                     # tests
+├─── tests/                                     # tests
+└─── .env                                       # Enviroment Variables
 ```
 
 ## Future Improvements

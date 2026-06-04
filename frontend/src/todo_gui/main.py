@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from nicegui import ui
 
 from models.todo import Todo
@@ -8,7 +13,8 @@ from pages.todo_page import TodoPage
 from pages.add_todo_page import AddTodoPage
 from pages.edit_todo_page import EditTodoPage
 
-api_client = APIClientService("http://localhost:8000/api/todos")
+API_URL = os.getenv("API_URL", "http://localhost:8000/api/todos")
+api_client = APIClientService(API_URL)
 
 
 def root():
