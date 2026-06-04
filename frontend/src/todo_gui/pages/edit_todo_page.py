@@ -47,7 +47,7 @@ class EditTodoPage:
         except APIError as e:
             if e.status_code == 404:
                 with ui.grid(columns=1).classes("w-full gap-4 place-items-center"):
-                    ui.label("Todo not found!").classes("text-5xl")
+                    ui.label(e.msg).classes("text-5xl")
                     with ui.link(target="/"):
                         ui.button("Return Home", icon="home")
             else:
