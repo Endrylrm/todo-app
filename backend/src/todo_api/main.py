@@ -29,7 +29,9 @@ controller = TodoController(service)
 
 @app.exception_handler(TodoNotFoundError)
 async def todo_not_found_handler(request: Request, exc: TodoNotFoundError):
-    return JSONResponse(status_code=404, content={"error": f"Todo {exc.id} not found!"})
+    return JSONResponse(
+        status_code=404, content={"error": f"Todo with id: {exc.id} not found!"}
+    )
 
 
 @app.exception_handler(TodoInvalidDataError)
