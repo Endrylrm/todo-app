@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from ..models.todo import Todo, TodoList
 from ..repositories.todo_repository import TodoRepository
 
@@ -20,6 +22,8 @@ class TodoService:
                     title=todo[1],
                     description=todo[2],
                     is_active=bool(todo[3]),
+                    updated_at=datetime.fromisoformat(todo[4]),
+                    created_at=datetime.fromisoformat(todo[5]),
                 )
             )
 
@@ -36,6 +40,8 @@ class TodoService:
             title=result[1],
             description=result[2],
             is_active=bool(result[3]),
+            updated_at=datetime.fromisoformat(result[4]),
+            created_at=datetime.fromisoformat(result[5]),
         )
 
         return todo

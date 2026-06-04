@@ -1,5 +1,7 @@
 import sqlite3
 
+from datetime import datetime, UTC
+
 from typing import Any
 
 from .todo_repository import TodoRepository
@@ -74,7 +76,10 @@ class TodoSQLiteRepository(TodoRepository):
             sql = sql + "is_active = ?,"
             temp_parameter_list.append(int(todo.is_active))
 
-        sql = sql.rstrip(",") + " WHERE id = ?"
+        sql = sql + f"updated_at = ?"
+        temp_parameter_list.append(datetime.now(UTC).isoformat())
+
+        sql = sql + " WHERE id = ?"
         temp_parameter_list.append(id)
 
         cursor.execute(
@@ -94,15 +99,22 @@ class TodoSQLiteRepository(TodoRepository):
         cursor = self._conn.cursor()
         cursor.execute(
             """
-            INSERT INTO todos (id, title, description, is_active) 
-            VALUES (?, ?, ?, ?)
+            INSERT INTO todos (id, title, description, is_active, updated_at) 
+            VALUES (?, ?, ?, ?, ?)
             ON CONFLICT(id)
             DO UPDATE SET
                 title = excluded.title,
                 description = excluded.description,
-                is_active = excluded.is_active;
+                is_active = excluded.is_active,
+                updated_at = excluded.updated_at;
             """,
-            (id, str(todo.title), str(todo.description), int(todo.is_active)),
+            (
+                id,
+                str(todo.title),
+                str(todo.description),
+                int(todo.is_active),
+                datetime.now(UTC).isoformat(),
+            ),
         )
         self._conn.commit()
 

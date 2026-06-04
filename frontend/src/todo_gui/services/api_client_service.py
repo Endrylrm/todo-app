@@ -14,14 +14,14 @@ class APIClientService:
 
         todos = []
         for todo in request["todos"]:
-            todos.append(Todo(**todo))
+            todos.append(Todo.from_api(todo))
 
         return todos
 
     def get_todo(self, id: int) -> Todo:
         request = self._request("GET", f"/{id}")
 
-        todo = Todo(**request)
+        todo = Todo.from_api(request)
         return todo
 
     def insert_todo(self, todo: Todo):
