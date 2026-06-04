@@ -15,7 +15,7 @@ class TodoPage:
         todos = self._api_client.get_todos()
         with ui.row():
             with ui.link(target="/add"):
-                ui.button("Add Todo", icon="add", color="green")
+                ui.button("Add Task", icon="add", color="green")
         with ui.grid(columns=4).classes("w-full gap-4"):
             if not todos:
                 with ui.grid(columns=1).classes("w-full gap-4 place-items-center"):
