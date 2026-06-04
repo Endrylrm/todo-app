@@ -16,7 +16,7 @@ class TodoCard(ui.card):
 
         with self:
             with ui.card_section().classes("gap-2"):
-                ui.label(f"Todo ID: {self.todo.id}")
+                ui.label(f"Task ID: {self.todo.id}")
                 ui.label(f"Title: {self.todo.title}")
                 ui.label(f"Description: {self.todo.description}")
                 ui.switch("Is Active", value=self.todo.is_active).set_enabled(False)

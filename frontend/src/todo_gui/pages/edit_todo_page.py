@@ -18,7 +18,7 @@ class EditTodoPage:
             todo = self._api_client.get_todo(id)
 
             with ui.grid(columns=1).classes("w-full gap-1"):
-                ui.input(f"Todo ID:").set_value(todo.id).set_enabled(False)
+                ui.input(f"Task ID:").set_value(todo.id).set_enabled(False)
                 title = ui.input("Title:")
                 title.set_value(todo.title)
                 description = ui.input("Description:")
