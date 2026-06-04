@@ -8,7 +8,7 @@ from pages.todo_page import TodoPage
 from pages.add_todo_page import AddTodoPage
 from pages.edit_todo_page import EditTodoPage
 
-api_client = APIClientService("http://backend:8000/api/todos")
+api_client = APIClientService("http://localhost:8000/api/todos")
 
 
 def root():

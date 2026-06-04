@@ -27,9 +27,6 @@ class TodoSQLiteRepository(TodoRepository):
         cursor = self._conn.cursor()
         cursor.execute("SELECT * FROM todos WHERE id = ?", (id,))
         todo = cursor.fetchone()
-
-        if todo is None:
-            raise TodoNotFoundError(id)
         return todo
 
     def insert_one(self, todo: Todo):
@@ -40,8 +37,8 @@ class TodoSQLiteRepository(TodoRepository):
         cursor.execute(
             "INSERT INTO todos (title, description, is_active) VALUES (?, ?, ?)",
             (
-                todo.title,
-                todo.description,
+                str(todo.title),
+                str(todo.description),
                 int(todo.is_active),
             ),
         )
@@ -55,8 +52,11 @@ class TodoSQLiteRepository(TodoRepository):
         # we don't accept empty todos.
         self._check_empty_todo(todo)
 
-        # check if user exist
-        user = self.get_one(id)
+        # check if todo exist
+        todo = self.get_one(id)
+
+        if todo is None:
+            raise TodoNotFoundError(id)
 
         cursor = self._conn.cursor()
         sql = "UPDATE todos SET "
@@ -64,11 +64,11 @@ class TodoSQLiteRepository(TodoRepository):
 
         if todo.title is not None:
             sql = sql + "title = ?,"
-            temp_parameter_list.append(todo.title)
+            temp_parameter_list.append(str(todo.title))
 
         if todo.description is not None:
             sql = sql + "description = ?,"
-            temp_parameter_list.append(todo.description)
+            temp_parameter_list.append(str(todo.description))
 
         if todo.is_active is not None:
             sql = sql + "is_active = ?,"
@@ -85,26 +85,33 @@ class TodoSQLiteRepository(TodoRepository):
 
     def update_many(self, todos: list[Todo]):
         for todo in todos:
-            self.update_one(1, todo)
+            self.update_one(todo.id, todo)
 
     def update_everything(self, id: str, todo: Todo):
         self._check_empty_todo(todo)
         self._validate_todo(todo)
 
-        if not id:
-            self.insert_one(todo)
-            return
-
         cursor = self._conn.cursor()
         cursor.execute(
-            "UPDATE todos SET title = ?, description = ?, is_active = ? WHERE id = ?",
-            (todo.title, todo.description, int(todo.is_active), id),
+            """
+            INSERT INTO todos (id, title, description, is_active) 
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(id)
+            DO UPDATE SET
+                title = excluded.title,
+                description = excluded.description,
+                is_active = excluded.is_active;
+            """,
+            (id, str(todo.title), str(todo.description), int(todo.is_active)),
         )
         self._conn.commit()
 
     def delete_one(self, id: str):
-        # check if user exist
-        user = self.get_one(id)
+        # check if todo exist
+        todo = self.get_one(id)
+
+        if todo is None:
+            raise TodoNotFoundError(id)
 
         cursor = self._conn.cursor()
         cursor.execute("DELETE FROM todos WHERE id = ?", (id,))

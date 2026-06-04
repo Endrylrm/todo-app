@@ -1,6 +1,8 @@
 from ..models.todo import Todo, TodoList
 from ..repositories.todo_repository import TodoRepository
 
+from ..exceptions.errors import TodoNotFoundError
+
 
 class TodoService:
     def __init__(self, repository: TodoRepository):
@@ -25,6 +27,9 @@ class TodoService:
 
     def get_todo(self, id: str) -> Todo:
         result = self._repository.get_one(id)
+
+        if not result:
+            raise TodoNotFoundError(id)
 
         todo = Todo(
             id=str(result[0]),
