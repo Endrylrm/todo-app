@@ -33,7 +33,7 @@ class APIClientService:
             "description": todo.description,
             "is_active": todo.is_active,
         }
-        self._request("POST", f"/{id}", json=payload)
+        self._request("POST", json=payload)
 
     def update_todo(self, id: int, todo: Todo):
         payload = {
