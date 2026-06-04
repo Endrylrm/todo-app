@@ -23,8 +23,7 @@ class EditTodoPage:
                 title.set_value(todo.title)
                 description = ui.input("Description:")
                 description.set_value(todo.description)
-                is_active = ui.switch("Is Active")
-                is_active.set_value(todo.is_active)
+                is_active = ui.checkbox("Is Active?", value=todo.is_active)
                 with ui.row():
                     with ui.link(target="/"):
                         ui.button(

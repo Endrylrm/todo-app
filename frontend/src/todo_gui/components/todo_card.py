@@ -19,7 +19,7 @@ class TodoCard(ui.card):
                 ui.label(f"Task ID: {self.todo.id}")
                 ui.label(f"Title: {self.todo.title}")
                 ui.label(f"Description: {self.todo.description}")
-                ui.switch("Is Active", value=self.todo.is_active).set_enabled(False)
+                ui.checkbox("Is Active?", value=self.todo.is_active).set_enabled(False)
                 with ui.row():
                     with ui.link(target=f"/edit/{self.todo.id}"):
                         ui.button(icon="edit")

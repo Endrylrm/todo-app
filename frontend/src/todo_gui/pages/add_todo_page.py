@@ -15,10 +15,10 @@ class AddTodoPage:
         with ui.grid(columns=1).classes("w-full gap-1"):
             title = ui.input("Title:")
             description = ui.input("Description:")
-            is_active = ui.switch("Is Active")
+            is_active = ui.checkbox("Is Active?", value=True)
             with ui.row():
                 ui.button(
-                    "Add new Todo",
+                    "Add new Task",
                     icon="add",
                     on_click=lambda: self._create_todo(
                         title.value, description.value, is_active.value
