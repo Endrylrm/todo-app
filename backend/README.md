@@ -79,7 +79,7 @@ fastapi run ./src/todo_api/main.py
 GET /api/todos
 ```
 
-Response body:
+Response (Status 200 OK):
 
 ```json
 {
@@ -112,10 +112,9 @@ Response body:
 GET /api/todos/:id
 ```
 
-Response body:
+Response (Status 200 OK):
 
 ```json
-
 {
   "id": 1,
   "title": "Build REST API",
@@ -130,7 +129,7 @@ Response body:
 POST /api/todos
 ```
 
-Request body:
+Request body (Status 201 OK):
 
 ```json
 {
@@ -140,6 +139,11 @@ Request body:
 }
 ```
 
+Response (Status 200 OK):
+```json
+{"success": "todo created!"}
+```
+
 ### Update a task
 
 ```http
@@ -147,7 +151,7 @@ PUT /api/todos/:id
 PATCH /api/todos/:id
 ```
 
-Request body:
+Request body (Status 200 OK):
 
 ```json
 {
@@ -157,10 +161,20 @@ Request body:
 }
 ```
 
+Response (Status 200 OK):
+```json
+{"success": "todo 3 updated!"}
+```
+
 ### Delete a task
 
 ```http
 DELETE /api/todos/:id
+```
+
+Response (Status 200 OK):
+```json
+{"success": "todo 1 deleted!"}
 ```
 
 ## Database
