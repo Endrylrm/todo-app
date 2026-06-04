@@ -25,11 +25,11 @@ class TodoCard(ui.card):
                     with ui.link(target=f"/edit/{index}"):
                         ui.button(icon="edit")
                     ui.button(
-                        on_click=lambda: self.delete_todo(index),
+                        on_click=lambda: self._delete_todo(index),
                         icon="delete",
                         color="red-800",
                     )
 
-    def delete_todo(self, id: int):
+    def _delete_todo(self, id: int):
         self._api_client.delete_todo(id)
         self.delete()

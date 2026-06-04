@@ -29,7 +29,7 @@ class EditTodoPage:
                         ui.button(
                             "Save Todo",
                             icon="save",
-                            on_click=lambda: self.edit_todo(
+                            on_click=lambda: self._edit_todo(
                                 id, title.value, description.value, is_active.value
                             ),
                             color="green",
@@ -39,7 +39,7 @@ class EditTodoPage:
                             "Delete Todo",
                             icon="delete",
                             color="red",
-                            on_click=lambda: self.delete_todo(id),
+                            on_click=lambda: self._delete_todo(id),
                         )
                     ui.space()
                     with ui.link(target="/"):
@@ -56,10 +56,10 @@ class EditTodoPage:
                     with ui.link(target="/"):
                         ui.button("Return Home", icon="home")
 
-    def edit_todo(self, id: int, title: str, description: str, is_active: bool):
+    def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
         self._api_client.update_todo(id, Todo(title, description, is_active))
 
         ui.notify(f"Todo Updated!")
 
-    def delete_todo(self, id: int):
+    def _delete_todo(self, id: int):
         self._api_client.delete_todo(id)

@@ -7,7 +7,7 @@ from services.api_client_service import APIClientService
 
 class AddTodoPage:
     def __init__(self, api_client: APIClientService):
-        self.api_client = api_client
+        self._api_client = api_client
 
         self.render()
 
@@ -20,7 +20,7 @@ class AddTodoPage:
                 ui.button(
                     "Add new Todo",
                     icon="add",
-                    on_click=lambda: self.create_todo(
+                    on_click=lambda: self._create_todo(
                         title.value, description.value, is_active.value
                     ),
                     color="green",
@@ -28,6 +28,6 @@ class AddTodoPage:
                 with ui.link(target="/"):
                     ui.button("Return Home", icon="home")
 
-    def create_todo(self, title: str, description: str, is_active: bool):
-        self.api_client.insert_todo(Todo(title, description, is_active))
+    def _create_todo(self, title: str, description: str, is_active: bool):
+        self._api_client.insert_todo(Todo(title, description, is_active))
         ui.notify(f"Todo Created!")
