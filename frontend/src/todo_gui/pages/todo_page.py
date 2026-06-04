@@ -23,4 +23,4 @@ class TodoPage:
                         "No todos yet, please click on 'Add Todo' to add a new one"
                     ).classes("text-5xl")
             for todo in todos:
-                TodoCard(int(todo), todos[todo], self._api_client)
+                TodoCard(todo, self._api_client)

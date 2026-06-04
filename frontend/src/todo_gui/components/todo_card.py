@@ -5,31 +5,30 @@ from services.api_client_service import APIClientService
 
 
 class TodoCard(ui.card):
-    def __init__(self, index: int, todo: Todo, api_client: APIClientService):
+    def __init__(self, todo: Todo, api_client: APIClientService):
         super().__init__()
         self.classes("col-span-4 md:col-span-2 lg:col-span-1")
         self.tight()
 
         self._api_client = api_client
 
-        self.title = todo.title
-        self.description = todo.description
-        self.is_active = todo.is_active
+        self.todo = todo
 
         with self:
             with ui.card_section().classes("gap-2"):
-                ui.label(f"Title: {self.title}")
-                ui.label(f"Description: {self.description}")
-                ui.switch("Is Active", value=self.is_active).set_enabled(False)
+                ui.label(f"Todo ID: {self.todo.id}")
+                ui.label(f"Title: {self.todo.title}")
+                ui.label(f"Description: {self.todo.description}")
+                ui.switch("Is Active", value=self.todo.is_active).set_enabled(False)
                 with ui.row():
-                    with ui.link(target=f"/edit/{index}"):
+                    with ui.link(target=f"/edit/{self.todo.id}"):
                         ui.button(icon="edit")
                     ui.button(
-                        on_click=lambda: self._delete_todo(index),
+                        on_click=lambda: self._delete_todo(),
                         icon="delete",
                         color="red-800",
                     )
 
-    def _delete_todo(self, id: int):
-        self._api_client.delete_todo(id)
+    def _delete_todo(self):
+        self._api_client.delete_todo(self.todo.id)
         self.delete()

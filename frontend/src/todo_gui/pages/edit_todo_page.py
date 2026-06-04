@@ -18,6 +18,7 @@ class EditTodoPage:
             todo = self._api_client.get_todo(id)
 
             with ui.grid(columns=1).classes("w-full gap-1"):
+                ui.input(f"Todo ID:").set_value(todo.id).set_enabled(False)
                 title = ui.input("Title:")
                 title.set_value(todo.title)
                 description = ui.input("Description:")
@@ -44,10 +45,10 @@ class EditTodoPage:
                     ui.space()
                     with ui.link(target="/"):
                         ui.button("Return Home", icon="home")
-        except APIError as e:
-            if e.status_code == 404:
+        except APIError as error:
+            if error.status_code == 404:
                 with ui.grid(columns=1).classes("w-full gap-4 place-items-center"):
-                    ui.label(e.msg).classes("text-5xl")
+                    ui.label(error.msg).classes("text-5xl")
                     with ui.link(target="/"):
                         ui.button("Return Home", icon="home")
             else:
@@ -57,7 +58,7 @@ class EditTodoPage:
                         ui.button("Return Home", icon="home")
 
     def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
-        self._api_client.update_todo(id, Todo(title, description, is_active))
+        self._api_client.update_todo(Todo(id, title, description, is_active))
 
         ui.notify(f"Todo Updated!")
 

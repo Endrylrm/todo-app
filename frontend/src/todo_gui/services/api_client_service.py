@@ -9,22 +9,19 @@ class APIClientService:
     def __init__(self, url: str):
         self._url = url
 
-    def get_todos(self) -> dict[str, Todo]:
-        r = self._request("GET")
+    def get_todos(self) -> list[Todo]:
+        request = self._request("GET")
 
-        todos = {}
-        for todo in r["todos"]:
-            id = todo["id"]
-            todo_params = {key: value for key, value in todo.items() if key != "id"}
-            todos[str(id)] = Todo(**todo_params)
+        todos = []
+        for todo in request["todos"]:
+            todos.append(Todo(**todo))
 
         return todos
 
     def get_todo(self, id: int) -> Todo:
-        r = self._request("GET", f"/{id}")
+        request = self._request("GET", f"/{id}")
 
-        todo_params = {key: value for key, value in r.items() if key != "id"}
-        todo = Todo(**todo_params)
+        todo = Todo(**request)
         return todo
 
     def insert_todo(self, todo: Todo):
@@ -35,13 +32,13 @@ class APIClientService:
         }
         self._request("POST", json=payload)
 
-    def update_todo(self, id: int, todo: Todo):
+    def update_todo(self, todo: Todo):
         payload = {
             "title": todo.title,
             "description": todo.description,
             "is_active": todo.is_active,
         }
-        self._request("PUT", f"/{id}", json=payload)
+        self._request("PUT", f"/{todo.id}", json=payload)
 
     def delete_todo(self, id: int):
         self._request("DELETE", f"/{id}")
