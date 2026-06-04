@@ -17,5 +17,10 @@ class TodoPage:
             with ui.link(target="/add"):
                 ui.button("Add Todo", icon="add", color="green")
         with ui.grid(columns=4).classes("w-full gap-4"):
+            if not todos:
+                with ui.grid(columns=1).classes("w-full gap-4 place-items-center"):
+                    ui.label(
+                        "No todos yet, please click on 'Add Todo' to add a new one"
+                    ).classes("text-5xl")
             for todo in todos:
                 TodoCard(int(todo), todos[todo], self._api_client)
