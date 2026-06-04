@@ -28,7 +28,7 @@ class EditTodoPage:
                 with ui.row():
                     with ui.link(target="/"):
                         ui.button(
-                            "Save Todo",
+                            "Save Task",
                             icon="save",
                             on_click=lambda: self._edit_todo(
                                 id, title.value, description.value, is_active.value
@@ -37,7 +37,7 @@ class EditTodoPage:
                         )
                     with ui.link(target="/"):
                         ui.button(
-                            "Delete Todo",
+                            "Delete Task",
                             icon="delete",
                             color="red",
                             on_click=lambda: self._delete_todo(id),
@@ -60,7 +60,8 @@ class EditTodoPage:
     def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
         self._api_client.update_todo(Todo(id, title, description, is_active))
 
-        ui.notify(f"Todo Updated!")
+        ui.notify(f"Task with id: {id} Updated!")
 
     def _delete_todo(self, id: int):
         self._api_client.delete_todo(id)
+        ui.notify(f"Task with id: {id} Deleted!")

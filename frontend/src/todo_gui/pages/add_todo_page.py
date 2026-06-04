@@ -30,4 +30,4 @@ class AddTodoPage:
 
     def _create_todo(self, title: str, description: str, is_active: bool):
         self._api_client.insert_todo(Todo(0, title, description, is_active))
-        ui.notify(f"Todo Created!")
+        ui.notify(f"Task Created!")

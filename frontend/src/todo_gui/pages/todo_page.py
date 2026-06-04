@@ -20,7 +20,7 @@ class TodoPage:
             if not todos:
                 with ui.grid(columns=1).classes("w-full gap-4 place-items-center"):
                     ui.label(
-                        "No todos yet, please click on 'Add Todo' to add a new one"
+                        "No task yet, please click on 'Add Task' to add a new one"
                     ).classes("text-5xl")
             for todo in todos:
                 TodoCard(todo, self._api_client)
