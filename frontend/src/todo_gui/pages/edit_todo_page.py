@@ -59,8 +59,8 @@ class EditTodoPage:
     def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
         self._api_client.update_todo(Todo(id, title, description, is_active))
 
-        ui.notify(f"Task with id: {id} Updated!")
+        ui.notify(f"Task with id: {id} Updated!", type="warning")
 
     def _delete_todo(self, id: int):
         self._api_client.delete_todo(id)
-        ui.notify(f"Task with id: {id} Deleted!")
+        ui.notify(f"Task with id: {id} Deleted!", type="negative")

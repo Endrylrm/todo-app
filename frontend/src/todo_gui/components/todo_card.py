@@ -31,5 +31,5 @@ class TodoCard(ui.card):
 
     def _delete_todo(self):
         self._api_client.delete_todo(self.todo.id)
-        ui.notify(f"Task with id: {self.todo.id} Deleted!")
+        ui.notify(f"Task with id: {self.todo.id} Deleted!", type="negative")
         self.delete()
