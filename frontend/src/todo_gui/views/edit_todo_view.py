@@ -2,20 +2,20 @@ from nicegui import ui
 
 from models.todo import Todo
 
-from services.api_client_service import APIClientService
+from viewmodels.todo_viewmodel import TodoViewmodel
 
 from exceptions.errors import APIError
 
 
-class EditTodoPage:
-    def __init__(self, id: int, api_client: APIClientService):
-        self._api_client = api_client
+class EditTodoView:
+    def __init__(self, id: int, todo_vm: TodoViewmodel):
+        self._todo_vm = todo_vm
 
         self.render(id)
 
     def render(self, id: int):
         try:
-            todo = self._api_client.get_todo(id)
+            todo = self._todo_vm.get_todo(id)
 
             with ui.grid(columns=1).classes("w-full gap-1"):
                 ui.input(f"Task ID:").set_value(todo.id).set_enabled(False)
@@ -57,10 +57,9 @@ class EditTodoPage:
                         ui.button("Return Home", icon="home")
 
     def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
-        self._api_client.update_todo(Todo(id, title, description, is_active))
-
+        self._todo_vm.update_todo(Todo(id, title, description, is_active))
         ui.notify(f"Task with id: {id} Updated!", type="warning")
 
     def _delete_todo(self, id: int):
-        self._api_client.delete_todo(id)
+        self._todo_vm.delete_todo(id)
         ui.notify(f"Task with id: {id} Deleted!", type="negative")

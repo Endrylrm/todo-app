@@ -2,12 +2,12 @@ from nicegui import ui
 
 from models.todo import Todo
 
-from services.api_client_service import APIClientService
+from viewmodels.todo_viewmodel import TodoViewmodel
 
 
-class AddTodoPage:
-    def __init__(self, api_client: APIClientService):
-        self._api_client = api_client
+class AddTodoView:
+    def __init__(self, todo_vm: TodoViewmodel):
+        self._todo_vm = todo_vm
 
         self.render()
 
@@ -29,5 +29,5 @@ class AddTodoPage:
                     ui.button("Return Home", icon="home")
 
     def _create_todo(self, title: str, description: str, is_active: bool):
-        self._api_client.insert_todo(Todo(None, title, description, is_active))
+        self._todo_vm.insert_todo(Todo(None, title, description, is_active))
         ui.notify(f"Task Created!", type="positive")

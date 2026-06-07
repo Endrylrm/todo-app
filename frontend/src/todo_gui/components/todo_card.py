@@ -1,17 +1,17 @@
 from nicegui import ui
 
 from models.todo import Todo
-from services.api_client_service import APIClientService
+
+from viewmodels.todo_viewmodel import TodoViewmodel
 
 
 class TodoCard(ui.card):
-    def __init__(self, todo: Todo, api_client: APIClientService):
+    def __init__(self, todo: Todo, todo_vm: TodoViewmodel):
         super().__init__()
         self.classes("col-span-4 md:col-span-2 lg:col-span-1")
         self.tight()
 
-        self._api_client = api_client
-
+        self._todo_vm = todo_vm
         self.todo = todo
 
         with self:
@@ -30,6 +30,6 @@ class TodoCard(ui.card):
                     )
 
     def _delete_todo(self):
-        self._api_client.delete_todo(self.todo.id)
+        self._todo_vm.delete_todo(self.todo.id)
         ui.notify(f"Task with id: {self.todo.id} Deleted!", type="negative")
         self.delete()
