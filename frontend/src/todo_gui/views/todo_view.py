@@ -1,7 +1,5 @@
 from nicegui import ui
 
-from models.todo import Todo
-
 from components.todo_card import TodoCard
 
 from viewmodels.todo_viewmodel import TodoViewmodel
