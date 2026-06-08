@@ -20,6 +20,13 @@ class TodoViewmodel:
 
     def update_todo(self, todo: Todo):
         self._api_client.update_todo(todo)
+        for task in self.todos:
+            if task.id == todo.id:
+                task.title = todo.title
+                task.description = todo.description
+                task.is_active = todo.is_active
 
     def delete_todo(self, id: int):
+        todo_to_remove = next(filter(lambda todo: todo.id == id, self.todos))
         self._api_client.delete_todo(id)
+        self.todos.remove(todo_to_remove)
