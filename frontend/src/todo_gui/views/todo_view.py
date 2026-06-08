@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from components.todo_card import TodoCard
+from components.todo_list import TodoList
 
 from viewmodels.todo_viewmodel import TodoViewmodel
 
@@ -15,10 +15,4 @@ class TodoView:
         with ui.row():
             with ui.link(target="/add"):
                 ui.button("Add Task", icon="add", color="green")
-        with ui.grid(columns=4).classes("w-full gap-4"):
-            if not self._todo_vm.todos:
-                ui.label(
-                    "No task yet, please click on 'Add Task' to add a new one"
-                ).classes("text-4xl col-span-4")
-            for todo in self._todo_vm.todos:
-                TodoCard(todo, self._todo_vm)
+        TodoList(self._todo_vm)
