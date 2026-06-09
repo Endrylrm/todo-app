@@ -13,7 +13,7 @@ from viewmodels.todo_viewmodel import TodoViewmodel
 
 from views.todo_view import TodoView
 
-API_URL = os.getenv("API_URL", "http://localhost:8000/api/todos")
+API_URL = os.getenv("API_URL", "http://localhost:8000/api/todos/")
 api_client = APIClientService(API_URL)
 todo_vm = TodoViewmodel(api_client)
 
