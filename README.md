@@ -133,6 +133,8 @@ frontend/                                       # NiceGUI + requests
 ├─── src/
 │    ├─── todo_api/
 │    │    ├─── components/
+│    │    │    ├─── add_todo_dialog.py	        # This dialog is show when we click the add button
+│    │    │    ├─── edit_todo_dialog.py	        # This dialog is show when we click the edit button in our card
 │    │    │    ├─── todo_list.py	            # List Component - holds every Todo Card
 │    │    │    └─── todo_card.py	            # Card Component - The Todo that is show to the user
 │    │    ├─── events/
@@ -146,8 +148,6 @@ frontend/                                       # NiceGUI + requests
 │    │    ├─── viewmodels/
 │    │    │    └─── todo_viewmodel.py	        # Todo Viewmodel - Manages UI State and a Bridge to our API
 │    │    ├─── views/
-│    │    │    ├─── add_todo_view.py	        # This view is show when we click the add button
-│    │    │    ├─── edit_todo_view.py	        # This view is show when we click the edit button in our card
 │    │    │    └─── todo_view.py                # Main View - Shows all todos currently in our database
 │    │    └─── main.py				            # NiceGui - Entrypoint
 ├─── tests/                                     # tests

@@ -40,13 +40,13 @@ class TodoViewmodel:
             return
 
         for task in self.todos:
-            if task.id == todo.id:
+            if task.id == updated_todo.id:
                 task.title = updated_todo.title
                 task.description = updated_todo.description
                 task.is_active = updated_todo.is_active
                 task.updated_at = updated_todo.updated_at
         todo_updated.emit()
-        ui.notify(f"Task with id: {id} Updated!", type="warning")
+        ui.notify(f"Task with id: {updated_todo.id} Updated!", type="warning")
 
     def delete_todo(self, id: int):
         todo_to_remove = next(filter(lambda todo: todo.id == id, self.todos))

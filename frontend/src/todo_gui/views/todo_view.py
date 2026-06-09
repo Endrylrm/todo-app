@@ -1,6 +1,7 @@
 from nicegui import ui
 
 from components.todo_list import TodoList
+from components.add_todo_dialog import AddTodoDialog
 
 from viewmodels.todo_viewmodel import TodoViewmodel
 
@@ -12,6 +13,10 @@ class TodoView:
 
     def render(self):
         with ui.row():
-            with ui.link(target="/add"):
-                ui.button("Add Task", icon="add", color="green")
+            ui.button(
+                "Add Task",
+                icon="add",
+                color="green",
+                on_click=lambda: AddTodoDialog(self._todo_vm).open(),
+            )
         TodoList(self._todo_vm)

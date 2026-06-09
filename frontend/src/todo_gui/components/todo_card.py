@@ -1,5 +1,7 @@
 from nicegui import ui
 
+from .edit_todo_dialog import EditTodoDialog
+
 from models.todo import Todo
 
 from viewmodels.todo_viewmodel import TodoViewmodel
@@ -21,8 +23,12 @@ class TodoCard(ui.card):
                 ui.label(f"Description: {self.todo.description}")
                 ui.checkbox("Is Active?", value=self.todo.is_active).set_enabled(False)
                 with ui.row():
-                    with ui.link(target=f"/edit/{self.todo.id}"):
-                        ui.button(icon="edit")
+                    ui.button(
+                        icon="edit",
+                        on_click=lambda: EditTodoDialog(
+                            self.todo.id, self._todo_vm
+                        ).open(),
+                    )
                     ui.button(
                         on_click=lambda: self._delete_todo(),
                         icon="delete",

@@ -5,16 +5,14 @@ from models.todo import Todo
 from viewmodels.todo_viewmodel import TodoViewmodel
 
 
-class AddTodoView:
+class AddTodoDialog(ui.dialog):
     def __init__(self, todo_vm: TodoViewmodel):
+        super().__init__()
         self._todo_vm = todo_vm
 
-        self.render()
-
-    def render(self):
-        with ui.grid(columns=1).classes("w-full gap-1"):
-            title = ui.input("Title:")
-            description = ui.input("Description:")
+        with self, ui.card().classes("w-lg gap-2"):
+            title = ui.input("Title:").classes("w-full")
+            description = ui.textarea("Description:").classes("w-full")
             is_active = ui.checkbox("Is Active?", value=True)
             with ui.row():
                 ui.button(
@@ -25,8 +23,7 @@ class AddTodoView:
                     ),
                     color="green",
                 )
-                with ui.link(target="/"):
-                    ui.button("Return Home", icon="home")
+                ui.button("Close", icon="close", on_click=self.close)
 
     def _create_todo(self, title: str, description: str, is_active: bool):
         self._todo_vm.insert_todo(Todo(None, title, description, is_active))
