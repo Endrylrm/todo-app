@@ -135,6 +135,8 @@ frontend/                                       # NiceGUI + requests
 │    │    ├─── components/
 │    │    │    ├─── todo_list.py	            # List Component - holds every Todo Card
 │    │    │    └─── todo_card.py	            # Card Component - The Todo that is show to the user
+│    │    ├─── events/
+│    │    │    └─── todo.py		                # All events related to Todos, from creating to deleting
 │    │    ├─── exceptions/
 │    │    │    └─── errors.py		            # All exceptions related to API
 │    │    ├─── models/
