@@ -8,12 +8,6 @@ from .todo_repository import TodoRepository
 
 from ..models.todo import Todo
 
-from ..exceptions.errors import (
-    TodoNotFoundError,
-    TodoInvalidDataError,
-    TodoEmptyDataError,
-)
-
 
 class TodoSQLiteRepository(TodoRepository):
     def __init__(self, connection: sqlite3.Connection):
@@ -32,9 +26,6 @@ class TodoSQLiteRepository(TodoRepository):
         return todo
 
     async def insert_one(self, todo: Todo) -> Any:
-        self._check_empty_todo(todo)
-        self._validate_todo(todo)
-
         with self._connection:
             cursor = self._connection.cursor()
             cursor.execute(
@@ -60,37 +51,19 @@ class TodoSQLiteRepository(TodoRepository):
         return inserted_todos
 
     async def update_one(self, id: str, todo: Todo) -> Any:
-        # we don't accept empty todos.
-        self._check_empty_todo(todo)
+        data = todo.model_dump(exclude_none=True)
+        data["updated_at"] = datetime.now(UTC).isoformat()
 
-        # check if todo exist
-        todo_exists = await self.get_one(id)
+        columns = [f"{column} = ?" for column in data.keys()]
 
-        if todo_exists is None:
-            raise TodoNotFoundError(id)
-
-        sql = "UPDATE todos SET "
-        temp_parameter_list = []
-
-        if todo.title is not None:
-            sql = sql + "title = ?,"
-            temp_parameter_list.append(str(todo.title))
-
-        if todo.description is not None:
-            sql = sql + "description = ?,"
-            temp_parameter_list.append(str(todo.description))
-
-        if todo.is_active is not None:
-            sql = sql + "is_active = ?,"
-            temp_parameter_list.append(int(todo.is_active))
-
-        sql = sql + f"updated_at = ?"
-        temp_parameter_list.append(datetime.now(UTC).isoformat())
-
-        sql = sql + " WHERE id = ?"
+        temp_parameter_list = list(data.values())
         temp_parameter_list.append(id)
 
-        sql = sql + " RETURNING *"
+        sql = f"""
+            UPDATE todos SET {", ".join(columns)}
+            WHERE id = ?
+            RETURNING *
+        """
 
         with self._connection:
             cursor = self._connection.cursor()
@@ -109,9 +82,6 @@ class TodoSQLiteRepository(TodoRepository):
         return updated_todos
 
     async def replace_one(self, id: str, todo: Todo):
-        self._check_empty_todo(todo)
-        self._validate_todo(todo)
-
         with self._connection:
             cursor = self._connection.cursor()
             cursor.execute(
@@ -145,12 +115,6 @@ class TodoSQLiteRepository(TodoRepository):
         return replaced_todos
 
     async def delete_one(self, id: str):
-        # check if todo exist
-        todo = await self.get_one(id)
-
-        if todo is None:
-            raise TodoNotFoundError(id)
-
         with self._connection:
             cursor = self._connection.cursor()
             cursor.execute("DELETE FROM todos WHERE id = ?", (id,))
@@ -158,17 +122,3 @@ class TodoSQLiteRepository(TodoRepository):
     async def delete_many(self, ids: list[str]):
         for id in ids:
             self.delete_one(id)
-
-    def _check_empty_todo(self, todo: Todo):
-        if todo.title is None and todo.description is None and todo.is_active is None:
-            raise TodoEmptyDataError()
-
-    def _validate_todo(self, todo: Todo):
-        if todo.title is None:
-            raise TodoInvalidDataError("title")
-
-        if todo.description is None:
-            raise TodoInvalidDataError("description")
-
-        if todo.is_active is None:
-            raise TodoInvalidDataError("is_active")

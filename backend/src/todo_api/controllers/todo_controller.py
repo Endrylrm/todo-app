@@ -2,7 +2,14 @@ from typing import Any
 
 from fastapi import APIRouter, status
 
-from ..dto.requests import CreateTodoRequest, UpdateTodoRequest, ReplaceTodoRequest
+from ..dto.requests import (
+    CreateTodoRequest,
+    UpdateTodoRequest,
+    ReplaceTodoRequest,
+    BaseTodoRequest,
+)
+
+from ..exceptions.errors import TodoEmptyDataError, TodoInvalidDataError
 
 from ..services.todo_service import TodoService
 
@@ -46,11 +53,16 @@ class TodoController:
         return {"success": f"Todo with id: {todo.id} found!", "data": todo}
 
     async def insert_todo(self, request: CreateTodoRequest) -> dict[str, Any]:
+        self._check_empty_request(request)
+        self._validate_request(request)
+
         new_todo = await self._service.insert_todo(request)
 
         return {"success": f"Todo with id: {new_todo.id} created!", "data": new_todo}
 
     async def update_todo(self, id: int, request: UpdateTodoRequest) -> dict[str, Any]:
+        self._check_empty_request(request)
+
         updated_todo = await self._service.update_todo(id, request)
 
         return {"success": f"Todo with id: {id} updated!", "data": updated_todo}
@@ -58,6 +70,9 @@ class TodoController:
     async def replace_todo(
         self, id: int, request: ReplaceTodoRequest
     ) -> dict[str, Any]:
+        self._check_empty_request(request)
+        self._validate_request(request)
+
         replaced_todo = await self._service.replace_todo(id, request)
 
         return {"success": f"Todo with id: {id} replaced!", "data": replaced_todo}
@@ -66,3 +81,19 @@ class TodoController:
         await self._service.delete_todo(id)
 
         return {"success": f"Todo with id: {id} deleted!"}
+
+    def _check_empty_request(self, request: BaseTodoRequest):
+        data = request.model_dump(exclude_none=True)
+
+        if not data:
+            raise TodoEmptyDataError()
+
+    def _validate_request(self, request: BaseTodoRequest):
+        if request.title is None:
+            raise TodoInvalidDataError("title")
+
+        if request.description is None:
+            raise TodoInvalidDataError("description")
+
+        if request.is_active is None:
+            raise TodoInvalidDataError("is_active")

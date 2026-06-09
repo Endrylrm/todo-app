@@ -12,11 +12,11 @@ class TodoInvalidDataError(Exception):
 
 class TodoEmptyDataError(Exception):
     def __init__(self):
-        self.msg = "The request body should not be empty"
-        super().__init__(self.msg)
+        self.message = "The request body should not be empty!"
+        super().__init__(self.message)
 
 
 class TodoNotCreatedError(Exception):
     def __init__(self):
-        self.msg = "Unable to create the todo!"
-        super().__init__(self.msg)
+        self.message = "Unable to create the todo!"
+        super().__init__(self.message)

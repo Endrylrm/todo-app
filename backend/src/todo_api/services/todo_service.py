@@ -74,6 +74,8 @@ class TodoService:
         return new_todo
 
     async def update_todo(self, id: str, request: UpdateTodoRequest) -> TodoResponse:
+        await self._check_todo_exists(id)
+
         todo = Todo(
             title=request.title,
             description=request.description,
@@ -95,6 +97,8 @@ class TodoService:
         return updated_todo
 
     async def replace_todo(self, id: str, request: ReplaceTodoRequest) -> TodoResponse:
+        await self._check_todo_exists(id)
+
         todo = Todo(
             title=request.title,
             description=request.description,
@@ -115,4 +119,12 @@ class TodoService:
         return replaced_todo
 
     async def delete_todo(self, id: str):
+        await self._check_todo_exists(id)
+
         await self._repository.delete_one(id)
+
+    async def _check_todo_exists(self, id: str):
+        todo_exists = await self._repository.get_one(id)
+
+        if todo_exists is None:
+            raise TodoNotFoundError(id)
