@@ -2,8 +2,6 @@ from datetime import datetime, UTC
 
 from nicegui import ui
 
-from models.todo import Todo
-
 from viewmodels.todo_viewmodel import TodoViewmodel
 
 from exceptions.errors import APIError
@@ -50,9 +48,7 @@ class EditTodoDialog(ui.dialog):
                     ui.button("Close", icon="close", on_click=self.delete)
 
     def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
-        self._todo_vm.update_todo(
-            Todo(id, title, description, is_active, datetime.now(UTC))
-        )
+        self._todo_vm.update_todo(id, title, description, is_active)
         self.delete()
 
     def _delete_todo(self, id: int):

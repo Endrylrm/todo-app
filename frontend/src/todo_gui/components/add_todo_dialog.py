@@ -1,7 +1,5 @@
 from nicegui import ui
 
-from models.todo import Todo
-
 from viewmodels.todo_viewmodel import TodoViewmodel
 
 
@@ -26,4 +24,4 @@ class AddTodoDialog(ui.dialog):
                 ui.button("Close", icon="close", on_click=self.delete)
 
     def _create_todo(self, title: str, description: str, is_active: bool):
-        self._todo_vm.insert_todo(Todo(None, title, description, is_active))
+        self._todo_vm.insert_todo(title, description, is_active)

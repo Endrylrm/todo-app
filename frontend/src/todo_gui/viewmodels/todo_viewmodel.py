@@ -21,10 +21,12 @@ class TodoViewmodel:
         todo = self._api_client.get_todo(id)
         return todo
 
-    def insert_todo(self, todo: Todo):
+    def insert_todo(self, title: str, description: str, is_active: bool):
+        todo = Todo(None, title, description, is_active)
+
         new_todo = self._api_client.insert_todo(todo)
 
-        if not todo:
+        if not new_todo:
             ui.notify("Unable to add task!", type="negative")
             return
 
@@ -32,7 +34,9 @@ class TodoViewmodel:
         todo_created.emit()
         ui.notify(f"Task Created!", type="positive")
 
-    def update_todo(self, todo: Todo):
+    def update_todo(self, id: int, title: str, description: str, is_active: bool):
+        todo = Todo(id, title, description, is_active)
+
         updated_todo = self._api_client.update_todo(todo)
 
         if not updated_todo:
