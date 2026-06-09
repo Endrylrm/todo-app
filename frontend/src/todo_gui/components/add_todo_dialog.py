@@ -23,7 +23,7 @@ class AddTodoDialog(ui.dialog):
                     ),
                     color="green",
                 )
-                ui.button("Close", icon="close", on_click=self.close)
+                ui.button("Close", icon="close", on_click=self.delete)
 
     def _create_todo(self, title: str, description: str, is_active: bool):
         self._todo_vm.insert_todo(Todo(None, title, description, is_active))
