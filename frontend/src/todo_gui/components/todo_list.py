@@ -2,6 +2,8 @@ from nicegui import ui
 
 from .todo_card import TodoCard
 
+from events.todo import todo_created, todo_updated, todo_deleted
+
 from models.todo import Todo
 
 from viewmodels.todo_viewmodel import TodoViewmodel
@@ -13,6 +15,10 @@ class TodoList(ui.grid):
         self.classes("w-full gap-4")
 
         self._todo_vm = todo_vm
+
+        todo_created.subscribe(self.render.refresh)
+        todo_updated.subscribe(self.render.refresh)
+        todo_deleted.subscribe(self.render.refresh)
 
         with self:
             self.render()

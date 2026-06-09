@@ -30,4 +30,3 @@ class AddTodoView:
 
     def _create_todo(self, title: str, description: str, is_active: bool):
         self._todo_vm.insert_todo(Todo(None, title, description, is_active))
-        ui.notify(f"Task Created!", type="positive")

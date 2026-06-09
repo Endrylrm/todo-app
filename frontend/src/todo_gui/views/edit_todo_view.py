@@ -62,8 +62,6 @@ class EditTodoView:
         self._todo_vm.update_todo(
             Todo(id, title, description, is_active, datetime.now(UTC))
         )
-        ui.notify(f"Task with id: {id} Updated!", type="warning")
 
     def _delete_todo(self, id: int):
         self._todo_vm.delete_todo(id)
-        ui.notify(f"Task with id: {id} Deleted!", type="negative")
