@@ -8,7 +8,6 @@ from viewmodels.todo_viewmodel import TodoViewmodel
 class TodoView:
     def __init__(self, todo_vm: TodoViewmodel):
         self._todo_vm = todo_vm
-        self._todo_vm.get_todos()
         self.render()
 
     def render(self):

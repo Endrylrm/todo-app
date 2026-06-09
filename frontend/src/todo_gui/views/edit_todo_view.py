@@ -1,3 +1,5 @@
+from datetime import datetime, UTC
+
 from nicegui import ui
 
 from models.todo import Todo
@@ -57,7 +59,9 @@ class EditTodoView:
                         ui.button("Return Home", icon="home")
 
     def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
-        self._todo_vm.update_todo(Todo(id, title, description, is_active))
+        self._todo_vm.update_todo(
+            Todo(id, title, description, is_active, datetime.now(UTC))
+        )
         ui.notify(f"Task with id: {id} Updated!", type="warning")
 
     def _delete_todo(self, id: int):

@@ -73,15 +73,20 @@ Update the API URL in main.py if necessary.
 src/
 ├─── todo_api/
 │    ├─── components/
+│    │ 	  ├─── todo_list.py	            # List Component - holds every Todo Card
 │    │ 	  └─── todo_card.py	            # Card Component - The Todo that is show to the user
+│    ├─── exceptions/
+│    │ 	  └─── errors.py                # All exceptions related to API
 │    ├─── models/
 │    │ 	  └─── todo.py		            # Model - Todo Model
-│    ├─── pages/
-│    │ 	  ├─── add_todo_page.py	        # This page is show when we click the add button
-│    │ 	  ├─── edit_todo_page.py	    # This page is show when we click the edit button in our card
-│    │ 	  └─── todo_page.py             # Main Page - Shows all todos currently in our database
 │    ├─── services/
-│    │ 	  └─── api_client_service.py    # Service - Gets and sends Data to our Todo API.
+│    │ 	  └─── api_client_service.py    # Service - Gets and sends Data to our Todo API
+│    ├─── viewmodels/
+│    │ 	  └─── todo_viewmodel.py        # Todo Viewmodel - Manages UI State and a Bridge to our API
+│    ├─── views/
+│    │ 	  ├─── add_todo_view.py	        # This view is show when we click the add button
+│    │ 	  ├─── edit_todo_view.py	    # This view is show when we click the edit button in our card
+│    │ 	  └─── todo_view.py             # Main View - Shows all todos currently in our database
 │    └─── main.py				        # NiceGui - Entrypoint
 tests/                                  # tests
 .env                                    # Enviroment Variables

@@ -13,7 +13,7 @@ class APIClientService:
         request = self._request("GET")
 
         todos = []
-        for todo in request["todos"]:
+        for todo in request["data"]:
             todos.append(Todo.from_api(todo))
 
         return todos
@@ -21,24 +21,28 @@ class APIClientService:
     def get_todo(self, id: int) -> Todo:
         request = self._request("GET", f"/{id}")
 
-        todo = Todo.from_api(request)
+        todo = Todo.from_api(request["data"])
         return todo
 
-    def insert_todo(self, todo: Todo):
+    def insert_todo(self, todo: Todo) -> Todo:
         payload = {
             "title": todo.title,
             "description": todo.description,
             "is_active": todo.is_active,
         }
-        self._request("POST", json=payload)
+        request = self._request("POST", json=payload)
+        todo = Todo.from_api(request["data"])
+        return todo
 
-    def update_todo(self, todo: Todo):
+    def update_todo(self, todo: Todo) -> Todo:
         payload = {
             "title": todo.title,
             "description": todo.description,
             "is_active": todo.is_active,
         }
-        self._request("PUT", f"/{todo.id}", json=payload)
+        request = self._request("PUT", f"/{todo.id}", json=payload)
+        todo = Todo.from_api(request["data"])
+        return todo
 
     def delete_todo(self, id: int):
         self._request("DELETE", f"/{id}")

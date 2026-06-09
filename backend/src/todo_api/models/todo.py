@@ -13,7 +13,3 @@ class Todo(BaseModel):
     created_at: datetime | None = Field(
         default=None, title="Todo created datetime - ISO Format"
     )
-
-
-class TodoList(BaseModel):
-    todos: list[Todo] = Field(default=[], title="List of Todos.")

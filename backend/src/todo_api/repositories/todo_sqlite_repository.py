@@ -19,7 +19,7 @@ class TodoSQLiteRepository(TodoRepository):
     def __init__(self, connection: sqlite3.Connection):
         self._connection = connection
 
-    async def get_all(self) -> Any:
+    async def get_all(self) -> list[Any]:
         cursor = self._connection.cursor()
         cursor.execute("SELECT * FROM todos")
         todos = cursor.fetchall()
@@ -31,33 +31,42 @@ class TodoSQLiteRepository(TodoRepository):
         todo = cursor.fetchone()
         return todo
 
-    async def insert_one(self, todo: Todo):
+    async def insert_one(self, todo: Todo) -> Any:
         self._check_empty_todo(todo)
         self._validate_todo(todo)
 
         with self._connection:
             cursor = self._connection.cursor()
             cursor.execute(
-                "INSERT INTO todos (title, description, is_active) VALUES (?, ?, ?)",
+                """
+                INSERT INTO todos (title, description, is_active)
+                VALUES (?, ?, ?)
+                RETURNING *;
+                """,
                 (
                     str(todo.title),
                     str(todo.description),
                     int(todo.is_active),
                 ),
             )
+            new_todo = cursor.fetchone()
+        return new_todo
 
-    async def insert_many(self, todos: list[Todo]):
+    async def insert_many(self, todos: list[Todo]) -> list[Any]:
+        inserted_todos = []
         for todo in todos:
-            self.insert_one(todo)
+            new_todo = await self.insert_one(todo)
+            inserted_todos.append(new_todo)
+        return inserted_todos
 
-    async def update_one(self, id: str, todo: Todo):
+    async def update_one(self, id: str, todo: Todo) -> Any:
         # we don't accept empty todos.
         self._check_empty_todo(todo)
 
         # check if todo exist
-        todo = await self.get_one(id)
+        todo_exists = await self.get_one(id)
 
-        if todo is None:
+        if todo_exists is None:
             raise TodoNotFoundError(id)
 
         sql = "UPDATE todos SET "
@@ -81,18 +90,25 @@ class TodoSQLiteRepository(TodoRepository):
         sql = sql + " WHERE id = ?"
         temp_parameter_list.append(id)
 
+        sql = sql + " RETURNING *"
+
         with self._connection:
             cursor = self._connection.cursor()
             cursor.execute(
                 sql,
                 tuple(temp_parameter_list),
             )
+            updated_todo = cursor.fetchone()
+        return updated_todo
 
-    async def update_many(self, todos: list[Todo]):
+    async def update_many(self, todos: list[Todo]) -> list[Any]:
+        updated_todos = []
         for todo in todos:
-            self.update_one(todo.id, todo)
+            updated_todo = await self.update_one(todo.id, todo)
+            updated_todos.append(updated_todo)
+        return updated_todos
 
-    async def update_everything(self, id: str, todo: Todo):
+    async def replace_one(self, id: str, todo: Todo):
         self._check_empty_todo(todo)
         self._validate_todo(todo)
 
@@ -100,14 +116,15 @@ class TodoSQLiteRepository(TodoRepository):
             cursor = self._connection.cursor()
             cursor.execute(
                 """
-                INSERT INTO todos (id, title, description, is_active, updated_at) 
+                INSERT INTO todos (id, title, description, is_active, updated_at)
                 VALUES (?, ?, ?, ?, ?)
                 ON CONFLICT(id)
                 DO UPDATE SET
                     title = excluded.title,
                     description = excluded.description,
                     is_active = excluded.is_active,
-                    updated_at = excluded.updated_at;
+                    updated_at = excluded.updated_at
+                RETURNING *;
                 """,
                 (
                     id,
@@ -117,6 +134,15 @@ class TodoSQLiteRepository(TodoRepository):
                     datetime.now(UTC).isoformat(),
                 ),
             )
+            replaced_todo = cursor.fetchone()
+        return replaced_todo
+
+    async def replace_many(self, todos: list[Todo]) -> list[Any]:
+        replaced_todos = []
+        for todo in todos:
+            replaced_todo = await self.replace_todo(todo.id, todo)
+            replaced_todos.append(replaced_todo)
+        return replaced_todos
 
     async def delete_one(self, id: str):
         # check if todo exist

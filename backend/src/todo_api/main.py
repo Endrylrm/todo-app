@@ -15,6 +15,7 @@ from .exceptions.errors import (
     TodoNotFoundError,
     TodoInvalidDataError,
     TodoEmptyDataError,
+    TodoNotCreatedError,
 )
 
 DB_URL = os.getenv("DATABASE_URL")
@@ -44,6 +45,11 @@ async def todo_invalid_data_handler(request: Request, exc: TodoInvalidDataError)
 @app.exception_handler(TodoEmptyDataError)
 async def todo_empty_data_handler(request: Request, exc: TodoEmptyDataError):
     return JSONResponse(status_code=400, content={"error": f"{exc.message}"})
+
+
+@app.exception_handler(TodoNotCreatedError)
+async def todo_not_created_handler(request: Request, exc: TodoNotCreatedError):
+    return JSONResponse(status_code=422, content={"error": f"{exc.message}"})
 
 
 app.include_router(controller.router)

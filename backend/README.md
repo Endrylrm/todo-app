@@ -19,7 +19,13 @@ src/
 │    ├─── controllers/
 │    │ 	  └─── todo_controller.py         # Controller - Todo API routing and controlling
 │    ├─── databases/
+│    │    ├─── base_db.py                 # Base Database Interface
 │    │ 	  └─── sqlite.py                  # Database - SQLite connection and initialization
+│    ├─── dto/
+│    │    ├─── requests.py                # DTO Requests - Create, Update and Replace
+│    │ 	  └─── responses.py               # DTO Responses - Main Object Response
+│    ├─── exceptions/
+│    │ 	  └─── errors.py                  # All exceptions related to Todos
 │    ├─── models/
 │    │ 	  └─── todo.py                    # Model - Todo Model
 │    ├─── repositories/
@@ -27,8 +33,6 @@ src/
 │    │ 	  └─── todo_sqlite_repository.py  # Repository - Todo SQLite Database
 │    ├─── services/
 │    │ 	  └─── todo_service.py            # Service - Gets Data from todo Repository
-│    ├─── validations/
-│    │ 	  └─── results.py                 # SQL Validation results
 │    └─── main.py                         # FastAPI - Entrypoint
 tests/                                    # tests
 .env                                      # Enviroment Variables
