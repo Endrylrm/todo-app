@@ -15,7 +15,11 @@ class TodoCard(ui.card):
 
         self._todo_vm = todo_vm
         self.todo = todo
+        self.editDialog = EditTodoDialog(self.todo.id, self._todo_vm)
 
+        self.render()
+
+    def render(self):
         with self:
             with ui.card_section().classes("gap-2"):
                 ui.label(f"Task ID: {self.todo.id}")
@@ -25,9 +29,7 @@ class TodoCard(ui.card):
                 with ui.row():
                     ui.button(
                         icon="edit",
-                        on_click=lambda: EditTodoDialog(
-                            self.todo.id, self._todo_vm
-                        ).open(),
+                        on_click=lambda: self.editDialog.open(),
                     )
                     ui.button(
                         on_click=lambda: self._delete_todo(),

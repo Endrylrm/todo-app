@@ -11,9 +11,11 @@ class EditTodoDialog(ui.dialog):
     def __init__(self, id: int, todo_vm: TodoViewmodel):
         super().__init__()
         self._todo_vm = todo_vm
+        self._id = id
 
+    def render(self):
         try:
-            todo = self._todo_vm.get_todo(id)
+            todo = self._todo_vm.get_todo(self._id)
 
             with self, ui.card().classes("w-lg gap-2"):
                 title = ui.input("Title:").classes("w-full")
@@ -36,21 +38,29 @@ class EditTodoDialog(ui.dialog):
                         on_click=lambda: self._delete_todo(id),
                         color="red",
                     )
-                    ui.button("Close", icon="close", on_click=self.delete)
+                    ui.button("Close", icon="close", on_click=self.close)
         except APIError as error:
             if error.status_code == 404:
                 with self, ui.card().classes("w-lg gap-2"):
                     ui.label(error.msg).classes("text-5xl")
-                    ui.button("Close", icon="close", on_click=self.delete)
+                    ui.button("Close", icon="close", on_click=self.close)
             else:
                 with self, ui.card().classes("w-lg gap-2"):
                     ui.label("Unexpected error, try again...").classes("text-5xl")
-                    ui.button("Close", icon="close", on_click=self.delete)
+                    ui.button("Close", icon="close", on_click=self.close)
+
+    def open(self):
+        self.render()
+        return super().open()
+
+    def close(self):
+        self.clear()
+        return super().close()
 
     def _edit_todo(self, id: int, title: str, description: str, is_active: bool):
         self._todo_vm.update_todo(id, title, description, is_active)
-        self.delete()
+        self.close()
 
     def _delete_todo(self, id: int):
         self._todo_vm.delete_todo(id)
-        self.delete()
+        self.close()

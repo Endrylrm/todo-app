@@ -9,6 +9,7 @@ from viewmodels.todo_viewmodel import TodoViewmodel
 class TodoView:
     def __init__(self, todo_vm: TodoViewmodel):
         self._todo_vm = todo_vm
+        self.addDialog = AddTodoDialog(self._todo_vm)
         self.render()
 
     def render(self):
@@ -17,6 +18,6 @@ class TodoView:
                 "Add Task",
                 icon="add",
                 color="green",
-                on_click=lambda: AddTodoDialog(self._todo_vm).open(),
+                on_click=lambda: self.addDialog.open(),
             )
         TodoList(self._todo_vm)

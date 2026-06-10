@@ -8,6 +8,7 @@ class AddTodoDialog(ui.dialog):
         super().__init__()
         self._todo_vm = todo_vm
 
+    def render(self):
         with self, ui.card().classes("w-lg gap-2"):
             title = ui.input("Title:").classes("w-full")
             description = ui.textarea("Description:").classes("w-full")
@@ -21,7 +22,15 @@ class AddTodoDialog(ui.dialog):
                     ),
                     color="green",
                 )
-                ui.button("Close", icon="close", on_click=self.delete)
+                ui.button("Close", icon="close", on_click=self.close)
+
+    def open(self):
+        self.render()
+        return super().open()
+
+    def close(self):
+        self.clear()
+        return super().close()
 
     def _create_todo(self, title: str, description: str, is_active: bool):
         self._todo_vm.insert_todo(title, description, is_active)
