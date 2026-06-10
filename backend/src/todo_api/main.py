@@ -6,7 +6,7 @@ load_dotenv()
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from .databases.sqlite import SQLiteDB
+from .databases.sqlite_db import SQLiteDB
 from .repositories.todo_sqlite_repository import TodoSQLiteRepository
 from .services.todo_service import TodoService
 from .controllers.todo_controller import TodoController
@@ -19,11 +19,20 @@ from .exceptions.errors import (
 )
 
 DB_URL = os.getenv("DATABASE_URL")
+DB_TYPE = os.getenv("DATABASE_TYPE")
+
 app = FastAPI()
-db = SQLiteDB(DB_URL)
+db = None
+repository = None
+
+if DB_TYPE == "sqlite":
+    db = SQLiteDB(DB_URL)
+    repository = TodoSQLiteRepository(db.create_connection())
+else:
+    print("Unable to load the Database, check the Database Type!")
+
 db.init_db()
 
-repository = TodoSQLiteRepository(db.create_connection())
 service = TodoService(repository)
 controller = TodoController(service)
 
