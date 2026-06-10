@@ -21,7 +21,7 @@ class TodoCard(ui.card):
 
     def render(self):
         with self:
-            with ui.card_section().classes("gap-2"):
+            with ui.card_section().classes("w-full gap-2"):
                 ui.label(f"Task ID: {self.todo.id}")
                 ui.label(f"Title: {self.todo.title}")
                 ui.label(f"Description: {self.todo.description}")
