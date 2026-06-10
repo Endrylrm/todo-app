@@ -7,11 +7,14 @@ class AddTodoDialog(ui.dialog):
     def __init__(self, todo_vm: TodoViewmodel):
         super().__init__()
         self._todo_vm = todo_vm
+        self.on("hide", self.close)
 
     def render(self):
         with self, ui.card().classes("w-lg gap-2"):
-            title = ui.input("Title:").classes("w-full")
-            description = ui.textarea("Description:").classes("w-full")
+            title = ui.input("Title:").classes("w-full").props("outlined")
+            description = (
+                ui.textarea("Description:").classes("w-full").props("outlined")
+            )
             is_active = ui.checkbox("Is Active?", value=True)
             with ui.row():
                 ui.button(
