@@ -1,5 +1,20 @@
 name: "todo-app"
 services:
+  db:
+    image: postgres:latest
+    container_name: db
+    hostname: db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespass
+      POSTGRES_DB: postgresdb
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks:
+      - todo-network
   backend:
     build:
       dockerfile: Dockerfile
@@ -7,6 +22,8 @@ services:
     image: todo-backend:latest
     container_name: backend
     hostname: backend
+    depends_on:
+      - db
     restart: "unless-stopped"
     env_file:
       - ./backend/.env
@@ -32,6 +49,8 @@ services:
       - 3000:3000
     networks:
       - todo-network
+volumes:
+  pgdata:
 networks:
   todo-network:
     driver: bridge

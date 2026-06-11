@@ -7,7 +7,11 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from .databases.sqlite_db import SQLiteDB
+from .databases.postgres_db import PostgreSQLDB
+
 from .repositories.todo_sqlite_repository import TodoSQLiteRepository
+from .repositories.todo_postgres_repository import TodoPostgresRepository
+
 from .services.todo_service import TodoService
 from .controllers.todo_controller import TodoController
 
@@ -25,11 +29,15 @@ app = FastAPI()
 db = None
 repository = None
 
-if DB_TYPE == "sqlite":
-    db = SQLiteDB(DB_URL)
-    repository = TodoSQLiteRepository(db.create_connection())
-else:
-    print("Unable to load the Database, check the Database Type!")
+match DB_TYPE:
+    case "sqlite":
+        db = SQLiteDB(DB_URL)
+        repository = TodoSQLiteRepository(db)
+    case "postgres":
+        db = PostgreSQLDB(DB_URL)
+        repository = TodoPostgresRepository(db)
+    case _:
+        print("Unable to load the Database, check the Database Type!")
 
 db.init_db()
 

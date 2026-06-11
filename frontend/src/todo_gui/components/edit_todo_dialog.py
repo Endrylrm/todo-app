@@ -31,7 +31,7 @@ class EditTodoDialog(ui.dialog):
                         "Save Task",
                         icon="save",
                         on_click=lambda: self._edit_todo(
-                            id, title.value, description.value, is_active.value
+                            self._id, title.value, description.value, is_active.value
                         ),
                         color="green",
                     )

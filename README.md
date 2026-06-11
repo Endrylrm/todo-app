@@ -19,7 +19,7 @@ This project was developed to practice and demonstrate modern web development co
 |-------|--------|
 | **Frontend** | NiceGUI, requests |
 | **Backend** | FastAPI |
-| **Database** | SQLite |
+| **Database** | SQLite or PostgreSQL |
 | **Styling** | CSS, Tailwind CSS |
 
 
@@ -111,47 +111,49 @@ backend/                                        # FastAPI + SQLite
 │    │    ├─── controllers/
 │    │    │    └─── todo_controller.py	        # Controller - Todo API routing and controlling
 │    │    ├─── databases/
-│    │    │    ├─── base_db.py                  # Base Database Interface
-│    │    │    └─── sqlite.py	                # Database - SQLite connection and initialization
+│    │    │    ├─── base_db.py                      # Base Database Interface
+│    │    │    ├─── postgres_db.py                  # Database - PostgreSQL connection and initialization
+│    │    │    └─── sqlite.py	                    # Database - SQLite connection and initialization
 │    │    ├─── dto/
-│    │    │    ├─── requests.py                 # DTO Requests - Create, Update and Replace
-│    │    │    └─── responses.py	            # DTO Responses - Main Object Response
+│    │    │    ├─── requests.py                     # DTO Requests - Create, Update and Replace
+│    │    │    └─── responses.py	                # DTO Responses - Main Object Response
 │    │    ├─── exceptions/
-│    │    │    └─── errors.py		            # All exceptions related to Todos
+│    │    │    └─── errors.py		                # All exceptions related to Todos
 │    │    ├─── models/
-│    │    │    └─── todo.py		                # Model - Todo Model
+│    │    │    └─── todo.py		                    # Model - Todo Model
 │    │    ├─── repositories/
-│    │    │    ├─── todo_repository.py          # Repository Interface - Todo Database
-│    │    │    └─── todo_sqlite_repository.py	# Repository - Todo SQLite Database
+│    │    │    ├─── todo_postgres_repository.py     # Repository - Todo PostgreSQL Database
+│    │    │    ├─── todo_repository.py              # Repository Interface - Todo Database
+│    │    │    └─── todo_sqlite_repository.py	    # Repository - Todo SQLite Database
 │    │    ├─── services/
-│    │    │    └─── todo_service.py		        # Service - Gets Data from todo Repository
-│    │    └─── main.py					        # FastAPI - Entrypoint
-├─── tests/                                     # tests
-└─── .env                                       # Enviroment Variables
+│    │    │    └─── todo_service.py		            # Service - Gets Data from todo Repository
+│    │    └─── main.py					            # FastAPI - Entrypoint
+├─── tests/                                         # tests
+└─── .env                                           # Enviroment Variables
 
-frontend/                                       # NiceGUI + requests
+frontend/                                           # NiceGUI + requests
 ├─── src/
 │    ├─── todo_api/
 │    │    ├─── components/
-│    │    │    ├─── add_todo_dialog.py	        # This dialog is show when we click the add button
-│    │    │    ├─── edit_todo_dialog.py	        # This dialog is show when we click the edit button in our card
-│    │    │    ├─── todo_list.py	            # List Component - holds every Todo Card
-│    │    │    └─── todo_card.py	            # Card Component - The Todo that is show to the user
+│    │    │    ├─── add_todo_dialog.py	            # This dialog is show when we click the add button
+│    │    │    ├─── edit_todo_dialog.py	            # This dialog is show when we click the edit button in our card
+│    │    │    ├─── todo_list.py	                # List Component - holds every Todo Card
+│    │    │    └─── todo_card.py	                # Card Component - The Todo that is show to the user
 │    │    ├─── events/
-│    │    │    └─── todo.py		                # All events related to Todos, from creating to deleting
+│    │    │    └─── todo.py		                    # All events related to Todos, from creating to deleting
 │    │    ├─── exceptions/
-│    │    │    └─── errors.py		            # All exceptions related to API
+│    │    │    └─── errors.py		                # All exceptions related to API
 │    │    ├─── models/
-│    │    │    └─── todo.py		                # Model - Todo Model
+│    │    │    └─── todo.py		                    # Model - Todo Model
 │    │    ├─── services/
-│    │    │    └─── api_client_service.py	    # Service - Gets and sends Data to our Todo API
+│    │    │    └─── api_client_service.py	        # Service - Gets and sends Data to our Todo API
 │    │    ├─── viewmodels/
-│    │    │    └─── todo_viewmodel.py	        # Todo Viewmodel - Manages UI State and a Bridge to our API
+│    │    │    └─── todo_viewmodel.py	            # Todo Viewmodel - Manages UI State and a Bridge to our API
 │    │    ├─── views/
-│    │    │    └─── todo_view.py                # Main View - Shows all todos currently in our database
-│    │    └─── main.py				            # NiceGui - Entrypoint
-├─── tests/                                     # tests
-└─── .env                                       # Enviroment Variables
+│    │    │    └─── todo_view.py                    # Main View - Shows all todos currently in our database
+│    │    └─── main.py				                # NiceGui - Entrypoint
+├─── tests/                                         # tests
+└─── .env                                           # Enviroment Variables
 ```
 
 ## Future Improvements

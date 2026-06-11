@@ -1,17 +1,17 @@
-import sqlite3
-
 from datetime import datetime, UTC
-
 from typing import Any
 
 from .todo_repository import TodoRepository
+
+from ..databases.sqlite_db import SQLiteDB
 
 from ..models.todo import Todo
 
 
 class TodoSQLiteRepository(TodoRepository):
-    def __init__(self, connection: sqlite3.Connection):
-        self._connection = connection
+    def __init__(self, db: SQLiteDB):
+        self._db = db
+        self._connection = self._db.create_connection()
 
     async def get_all(self) -> list[Any]:
         cursor = self._connection.cursor()
@@ -32,7 +32,7 @@ class TodoSQLiteRepository(TodoRepository):
                 """
                 INSERT INTO todos (title, description, is_active)
                 VALUES (?, ?, ?)
-                RETURNING *;
+                RETURNING *
                 """,
                 (
                     str(todo.title),
@@ -41,7 +41,7 @@ class TodoSQLiteRepository(TodoRepository):
                 ),
             )
             new_todo = cursor.fetchone()
-        return new_todo
+            return new_todo
 
     async def insert_many(self, todos: list[Todo]) -> list[Any]:
         inserted_todos = []
@@ -72,7 +72,7 @@ class TodoSQLiteRepository(TodoRepository):
                 tuple(temp_parameter_list),
             )
             updated_todo = cursor.fetchone()
-        return updated_todo
+            return updated_todo
 
     async def update_many(self, todos: list[Todo]) -> list[Any]:
         updated_todos = []
@@ -94,7 +94,7 @@ class TodoSQLiteRepository(TodoRepository):
                     description = excluded.description,
                     is_active = excluded.is_active,
                     updated_at = excluded.updated_at
-                RETURNING *;
+                RETURNING *
                 """,
                 (
                     id,
@@ -105,7 +105,7 @@ class TodoSQLiteRepository(TodoRepository):
                 ),
             )
             replaced_todo = cursor.fetchone()
-        return replaced_todo
+            return replaced_todo
 
     async def replace_many(self, todos: list[Todo]) -> list[Any]:
         replaced_todos = []
