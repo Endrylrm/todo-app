@@ -103,13 +103,13 @@ uv run ./src/todo_gui/main.py
 ## Project Structure
 
 ```text
-backend/                                        # FastAPI + SQLite
+backend/                                            # FastAPI + SQLite
 ├─── database/
-│    └─── todo.db					            # Todo - SQLite Database
+│    └─── todo.db					                # Todo - SQLite Database
 ├─── src/
 │    ├─── todo_api/
 │    │    ├─── controllers/
-│    │    │    └─── todo_controller.py	        # Controller - Todo API routing and controlling
+│    │    │    └─── todo_controller.py	            # Controller - Todo API routing and controlling
 │    │    ├─── databases/
 │    │    │    ├─── base_db.py                      # Base Database Interface
 │    │    │    ├─── postgres_db.py                  # Database - PostgreSQL connection and initialization
