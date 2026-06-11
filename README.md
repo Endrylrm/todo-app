@@ -158,6 +158,7 @@ frontend/                                           # NiceGUI + requests
 
 ## Future Improvements
 
+- Move to a client side frontend framework.
 - User authentication and authorization
 - Filter tasks by status
 - Task categories and labels
