@@ -49,6 +49,15 @@ services:
       - 3000:3000
     networks:
       - todo-network
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    hostname: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - todo-network
 volumes:
   pgdata:
 networks:
