@@ -15,7 +15,7 @@ class TodoSQLiteRepository(TodoRepository):
 
     async def get_all(self) -> list[Any]:
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM todos")
+        cursor.execute("SELECT * FROM todos ORDER BY id")
         todos = cursor.fetchall()
         return todos
 

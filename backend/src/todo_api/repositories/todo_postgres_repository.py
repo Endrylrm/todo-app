@@ -15,7 +15,7 @@ class TodoPostgresRepository(TodoRepository):
     async def get_all(self) -> list[Any]:
         with self._db.create_connection() as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT * FROM todos")
+                cursor.execute("SELECT * FROM todos ORDER BY id")
                 todos = cursor.fetchall()
                 return todos
 
