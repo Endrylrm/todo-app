@@ -81,7 +81,7 @@ class TodoSQLiteRepository(TodoRepository):
             updated_todos.append(updated_todo)
         return updated_todos
 
-    async def replace_one(self, id: str, todo: Todo):
+    async def upsert_one(self, id: str, todo: Todo):
         with self._connection:
             cursor = self._connection.cursor()
             cursor.execute(
@@ -104,15 +104,15 @@ class TodoSQLiteRepository(TodoRepository):
                     datetime.now(UTC).isoformat(),
                 ),
             )
-            replaced_todo = cursor.fetchone()
-            return replaced_todo
+            upserted_todo = cursor.fetchone()
+            return upserted_todo
 
-    async def replace_many(self, todos: list[Todo]) -> list[Any]:
-        replaced_todos = []
+    async def upsert_many(self, todos: list[Todo]) -> list[Any]:
+        upserted_todos = []
         for todo in todos:
-            replaced_todo = await self.replace_todo(todo.id, todo)
-            replaced_todos.append(replaced_todo)
-        return replaced_todos
+            upserted_todo = await self.upsert_one(todo.id, todo)
+            upserted_todos.append(upserted_todo)
+        return upserted_todos
 
     async def delete_one(self, id: str):
         with self._connection:

@@ -27,11 +27,11 @@ class TodoRepository(ABC):
         pass
 
     @abstractmethod
-    async def replace_one[T](self, id: str, entity: T) -> T:
+    async def upsert_one[T](self, id: str, entity: T) -> T:
         pass
 
     @abstractmethod
-    async def replace_many[T](self, entities: list[T]) -> T:
+    async def upsert_many[T](self, entities: list[T]) -> T:
         pass
 
     @abstractmethod

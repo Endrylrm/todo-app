@@ -5,7 +5,7 @@ from fastapi import APIRouter, status
 from ..dto.requests import (
     CreateTodoRequest,
     UpdateTodoRequest,
-    ReplaceTodoRequest,
+    UpsertTodoRequest,
     BaseTodoRequest,
 )
 
@@ -30,7 +30,7 @@ class TodoController:
         )
         self.router.add_api_route(
             "/{id}",
-            self.replace_todo,
+            self.upsert_todo,
             methods=["PUT"],
             status_code=status.HTTP_200_OK,
         )
@@ -67,15 +67,13 @@ class TodoController:
 
         return {"success": f"Todo with id: {id} updated!", "data": updated_todo}
 
-    async def replace_todo(
-        self, id: int, request: ReplaceTodoRequest
-    ) -> dict[str, Any]:
+    async def upsert_todo(self, id: int, request: UpsertTodoRequest) -> dict[str, Any]:
         self._check_empty_request(request)
         self._validate_request(request)
 
-        replaced_todo = await self._service.replace_todo(id, request)
+        upserted_todo = await self._service.upsert_todo(id, request)
 
-        return {"success": f"Todo with id: {id} replaced!", "data": replaced_todo}
+        return {"success": f"Todo with id: {id} Upserted!", "data": upserted_todo}
 
     async def delete_todo(self, id: int) -> dict[str, str]:
         await self._service.delete_todo(id)

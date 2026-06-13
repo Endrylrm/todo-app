@@ -96,7 +96,7 @@ class TodoService:
 
         return updated_todo
 
-    async def replace_todo(self, id: str, request: ReplaceTodoRequest) -> TodoResponse:
+    async def upsert_todo(self, id: str, request: ReplaceTodoRequest) -> TodoResponse:
         await self._check_todo_exists(id)
 
         todo = Todo(
@@ -105,9 +105,9 @@ class TodoService:
             is_active=request.is_active,
         )
 
-        result = await self._repository.replace_one(id, todo)
+        result = await self._repository.upsert_one(id, todo)
 
-        replaced_todo = TodoResponse(
+        upserted_todo = TodoResponse(
             id=str(result[0]),
             title=result[1],
             description=result[2],
@@ -116,7 +116,7 @@ class TodoService:
             created_at=datetime.fromisoformat(str(result[5])),
         )
 
-        return replaced_todo
+        return upserted_todo
 
     async def delete_todo(self, id: str):
         await self._check_todo_exists(id)
