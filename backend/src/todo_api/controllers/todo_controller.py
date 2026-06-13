@@ -29,10 +29,7 @@ class TodoController:
             "/", self.insert_todo, methods=["POST"], status_code=status.HTTP_201_CREATED
         )
         self.router.add_api_route(
-            "/{id}",
-            self.upsert_todo,
-            methods=["PUT"],
-            status_code=status.HTTP_200_OK,
+            "/{id}", self.upsert_todo, methods=["PUT"], status_code=status.HTTP_200_OK
         )
         self.router.add_api_route(
             "/{id}", self.update_todo, methods=["PATCH"], status_code=status.HTTP_200_OK
